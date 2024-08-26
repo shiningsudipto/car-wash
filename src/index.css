@@ -67,3 +67,10 @@
     @apply bg-background text-foreground;
   }
 }
+body {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.container {
+  @apply lg:w-[95%] w-[98%];
+}

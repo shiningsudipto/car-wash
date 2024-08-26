@@ -13,18 +13,18 @@ import bImg5 from "@/assets/banner/b6.png";
 
 const bannerOptions = [
   {
-    title: "",
-    subtitle: "",
+    title: "Experience Premium Car Wash Services",
+    subtitle: "We make your car shine like new with our expert care",
     img: bImg1,
   },
   {
-    title: "",
-    subtitle: "",
+    title: "Your Car Deserves the Best",
+    subtitle: "High-quality car wash services tailored to your needs",
     img: bImg2,
   },
   {
-    title: "",
-    subtitle: "",
+    title: "Drive Clean, Drive Happy",
+    subtitle: "Transform your car with our professional wash and detailing",
     img: bImg5,
   },
 ];
