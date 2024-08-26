@@ -4,6 +4,7 @@ import fImg3 from "@/assets/features/f3.jpg";
 import fImg4 from "@/assets/features/f4.jpg";
 import fImg5 from "@/assets/features/f5.webp";
 import fImg6 from "@/assets/features/f6.webp";
+import SectionTitle from "@/components/reUsable/SectionTitle";
 
 const featuredServices = [
   {
@@ -57,6 +58,10 @@ const featuredServices = [
 const Services = () => {
   return (
     <div className="container mt-14">
+      <SectionTitle
+        title="Our Top Services"
+        subTitle="Explore our most popular services, carefully selected to give your car the best care it deserves"
+      />
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-10">
         {featuredServices.map((item, index) => {
           return (

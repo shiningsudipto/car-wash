@@ -56,7 +56,8 @@ const Banner = () => {
               />
               <div className="absolute top-0 overlay text-white flex flex-col justify-center items-center">
                 <h1 className="text-5xl font-bold">
-                  Experience Premium Car Wash Services
+                  Experience Premium <span className="text-primary">Car</span>{" "}
+                  <span className="text-primary-foreground">Wash</span> Services
                 </h1>
                 <h2 className="text-4xl font-semibold mt-5">
                   We make your car shine like new with our expert care
