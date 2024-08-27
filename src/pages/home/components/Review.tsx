@@ -1,8 +1,14 @@
 import FormikRating from "@/components/formik/FormikRating";
 import Textarea from "@/components/formik/Textarea";
 import SectionTitle from "@/components/reUsable/SectionTitle";
+import Loader from "@/components/shared/Loader";
+import { useGetLatestTwoRatingsQuery } from "@/redux/features/rating";
 import { Form, Formik } from "formik";
 import CountUp from "react-countup";
+import { RiDoubleQuotesL } from "react-icons/ri";
+import { RiDoubleQuotesR } from "react-icons/ri";
+import { FaStar } from "react-icons/fa";
+import { formatDateToDDMMYYYY } from "@/utils/utils";
 
 type TInitialValues = {
   feedback: string;
@@ -15,9 +21,17 @@ const initialValues: TInitialValues = {
 };
 
 const Review = () => {
+  const { data, isLoading } = useGetLatestTwoRatingsQuery(undefined);
+  console.log(data?.data);
+
   const onSubmit = (values) => {
     console.log(values);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="container mt-14">
       <SectionTitle
@@ -33,15 +47,18 @@ const Review = () => {
           <div className="flex flex-col items-center mt-5">
             <div>
               <p className="text-xl font-medium">
-                Average rating: <span className="text-3xl font-bold">4.8</span>
+                Average rating:{" "}
+                <span className="text-3xl font-bold">
+                  {data.data.averageRating}
+                </span>
               </p>
             </div>
             <p className="text-xl font-medium mt-5">Total ratings:</p>
             <CountUp
               className="text-5xl font-bold "
               start={0}
-              end={500}
-              duration={50}
+              end={data.data.totalRating}
+              duration={10}
               delay={2}
             ></CountUp>
           </div>
@@ -66,6 +83,35 @@ const Review = () => {
               );
             }}
           </Formik>
+        </div>
+      </div>
+      <div className="mt-10">
+        <div className="flex justify-center">
+          <h3 className="text-2xl font-semibold text-center flex items-center mb-5">
+            <RiDoubleQuotesL className="text-primary" /> Latest Customer
+            Feedback <RiDoubleQuotesR className="text-primary" />
+          </h3>
+        </div>
+        <div className="grid grid-cols-2 gap-x-[70px] ">
+          {data?.data?.result?.map((item) => {
+            return (
+              <div
+                key={item?._id}
+                className="space-y-2 bg-blue-100 p-5 rounded-md"
+              >
+                <p className="font-medium text-lg">{item?.name}</p>
+                <p className="flex items-center gap-x-1 font-medium">
+                  Rated: {item?.rating} <FaStar className="text-primary" />
+                </p>
+                <p className="flex items-center gap-x-1 font-medium ">
+                  Date: {formatDateToDDMMYYYY(item.createdAt)}
+                </p>
+                <p className="flex items-center text-xl font-medium">
+                  <RiDoubleQuotesL /> {item?.feedback} <RiDoubleQuotesR />
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
