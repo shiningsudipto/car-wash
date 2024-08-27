@@ -10,3 +10,18 @@ export const formatDateToDDMMYYYY = (isoDateString: string): string => {
   // Return the date in DD-MM-YYYY format
   return `${day}-${month}-${year}`;
 };
+
+export const MenuLinks = [
+  {
+    path: "/",
+    name: "Home",
+  },
+  {
+    path: "/services",
+    name: "Services",
+  },
+  {
+    path: "/login",
+    name: "Login",
+  },
+];

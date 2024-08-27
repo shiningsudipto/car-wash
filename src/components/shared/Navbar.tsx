@@ -7,22 +7,9 @@ import {
 } from "@/components/ui/drawer";
 import { IoMenu } from "react-icons/io5";
 import { AiOutlineCloseSquare } from "react-icons/ai";
+import { MenuLinks } from "@/utils/utils";
 
 const Navbar = () => {
-  const links = [
-    {
-      path: "/",
-      name: "Home",
-    },
-    {
-      path: "/services",
-      name: "Services",
-    },
-    {
-      path: "/login",
-      name: "Login",
-    },
-  ];
   return (
     <div className="h-[60px] flex justify-between items-center lg:px-[60px] px-5 py-2">
       <Link to={"/"} className="flex gap-x-2 items-center">
@@ -33,7 +20,7 @@ const Navbar = () => {
         </p>
       </Link>
       <div className="md:flex items-center gap-x-3 font-medium hidden">
-        {links?.map((menu, idx) => (
+        {MenuLinks?.map((menu, idx) => (
           <Link key={idx} to={menu?.path}>
             {menu?.name}
           </Link>
@@ -49,7 +36,7 @@ const Navbar = () => {
               <AiOutlineCloseSquare className=" text-3xl p-1" />
             </DrawerClose>
             <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4">
-              {links?.map((menu, idx) => (
+              {MenuLinks?.map((menu, idx) => (
                 <Link key={idx} to={menu?.path}>
                   {menu?.name}
                 </Link>
