@@ -82,3 +82,6 @@ body {
 .rr--off .rr--svg {
   stroke: #5869ffe3 !important;
 }
+.rr--box {
+  height: 40px;
+}
