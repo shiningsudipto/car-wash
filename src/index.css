@@ -74,3 +74,11 @@ body {
 .container {
   @apply lg:w-[95%] w-[98%];
 }
+
+.rr--on .rr--svg {
+  stroke: #5869ff !important;
+  fill: #ffe600 !important;
+}
+.rr--off .rr--svg {
+  stroke: #5869ffe3 !important;
+}

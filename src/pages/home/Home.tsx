@@ -1,4 +1,5 @@
 import Banner from "./components/Banner";
+import Review from "./components/Review";
 import Services from "./components/Services";
 import "./style.css";
 
@@ -7,6 +8,7 @@ const Home = () => {
     <div>
       <Banner />
       <Services />
+      <Review />
     </div>
   );
 };
