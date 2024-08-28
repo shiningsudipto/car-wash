@@ -85,3 +85,7 @@ body {
 .rr--box {
   height: 40px;
 }
+
+.form-submit-btn {
+  @apply w-full bg-primary text-white rounded-md py-3 font-semibold;
+}

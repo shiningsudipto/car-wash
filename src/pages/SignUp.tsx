@@ -28,10 +28,7 @@ const SignUp = () => {
           <Input name="Password" label="Password" type="password" />
           <Input name="phone" label="Prone" />
           <Input name="address" label="Address" />
-          <button
-            type="submit"
-            className="w-full bg-primary text-white rounded-md py-3 font-semibold"
-          >
+          <button type="submit" className="form-submit-btn">
             Sing up
           </button>
           <p>
