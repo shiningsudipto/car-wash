@@ -11,6 +11,9 @@ import { FaStar } from "react-icons/fa";
 import { formatDateToDDMMYYYY } from "@/utils/utils";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useState } from "react";
+import CustomModal from "@/components/reUsable/CustomModal";
+import { Link } from "react-router-dom";
 
 type TInitialValues = {
   feedback: string;
@@ -25,9 +28,12 @@ const initialValues: TInitialValues = {
 const Review = () => {
   const { data, isLoading } = useGetLatestTwoRatingsQuery(undefined);
   const user = useAppSelector(useCurrentUser);
-  console.log(user);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onSubmit = (values) => {
+    if (!user) {
+      setIsModalOpen(true);
+    }
     console.log(values);
   };
 
@@ -41,6 +47,17 @@ const Review = () => {
         title="What Our Customers Are Saying"
         subTitle="Discover why our clients love what we do"
       />
+      <CustomModal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+        <div className="flex flex-col justify-center items-center">
+          <h2 className="mb-5 text-lg font-medium">You need to login first</h2>
+          <Link
+            to={"/sign-in"}
+            className="bg-primary py-2 px-6 rounded-md font-semibold text-white"
+          >
+            Login
+          </Link>
+        </div>
+      </CustomModal>
       <div className="flex justify-between gap-x-[70px]">
         <div className="w-[50%] bg-primary-foreground p-5 rounded-md text-white">
           <h3 className="text-2xl font-semibold mb-5">Our Customers Love Us</h3>
