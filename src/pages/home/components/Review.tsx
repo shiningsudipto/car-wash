@@ -48,8 +48,7 @@ const Review = () => {
         rating: values.rating,
         feedback: values.feedback,
       });
-      console.log(response);
-      if (response.status === 200) {
+      if (response.data.statusCode === 200) {
         toast.success("Feedback posted", { id: toastId, duration: 2000 });
       } else {
         toast.error(response?.error?.data?.errorMessages[0]?.message, {
@@ -89,11 +88,11 @@ const Review = () => {
       </CustomModal>
       <div className="flex justify-between gap-x-[70px]">
         <div className="w-[50%] bg-primary-foreground p-5 rounded-md text-white">
-          <h3 className="text-2xl font-semibold mb-5">Our Customers Love Us</h3>
+          <h3 className="text-2xl font-semibold mb-4">Our Customers Love Us</h3>
           <h4 className="text-xl font font-medium">
             See the average rating based on customer feedback and reviews.
           </h4>
-          <div className="flex flex-col items-center mt-5">
+          <div className="flex flex-col items-center mt-4">
             <div>
               <p className="text-xl font-medium">
                 Average rating:{" "}
@@ -102,14 +101,20 @@ const Review = () => {
                 </span>
               </p>
             </div>
-            <p className="text-xl font-medium mt-5">Total ratings:</p>
+            <p className="text-xl font-medium mt-4">Total ratings:</p>
             <CountUp
               className="text-5xl font-bold "
               start={0}
               end={data.data.totalRating}
-              duration={10}
-              delay={2}
+              duration={5}
+              delay={1}
             ></CountUp>
+            <Link
+              to={"/reviews"}
+              className="text-xl font-semibold bg-primary text-white py-2 px-6 rounded-md mt-5"
+            >
+              See All Reviews
+            </Link>
           </div>
         </div>
         <div className="w-[50%]">
