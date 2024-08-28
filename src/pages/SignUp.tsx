@@ -1,6 +1,8 @@
 import FormikForm from "@/components/formik/FormikForm";
 import Input from "@/components/formik/Input";
+import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const initialValues = {
   name: "",
@@ -11,8 +13,18 @@ const initialValues = {
 };
 
 const SignUp = () => {
-  const onSubmit = (values) => {
-    console.log(values);
+  const [userInfo] = useRegistrationMutation();
+  const onSubmit = async (values) => {
+    try {
+      const response = await userInfo(values).unwrap();
+      console.log("response", response);
+      if (response.success) {
+        toast.success(response.message);
+      }
+    } catch (error) {
+      toast.error(error?.data?.message);
+      console.error("Error submitting form:", error?.data?.message);
+    }
   };
   return (
     <div className="container py-10">
@@ -25,7 +37,7 @@ const SignUp = () => {
         >
           <Input name="name" label="Name" />
           <Input name="email" label="Email" type="email" />
-          <Input name="Password" label="Password" type="password" />
+          <Input name="password" label="Password" type="password" />
           <Input name="phone" label="Prone" />
           <Input name="address" label="Address" />
           <button type="submit" className="form-submit-btn">

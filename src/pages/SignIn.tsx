@@ -1,15 +1,36 @@
 import FormikForm from "@/components/formik/FormikForm";
 import Input from "@/components/formik/Input";
-import { Link } from "react-router-dom";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { setUser, TUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { verifyToken } from "@/utils/verifyToken";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const initialValues = {
-  email: "",
-  password: "",
+  email: "cwuser@gmail.com",
+  password: "123456",
 };
 
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values);
+  const [userInfo] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async (values) => {
+    const toastId = toast.loading("Logging in");
+    try {
+      const response = await userInfo(values).unwrap();
+
+      const user = verifyToken(response.token) as TUser;
+      dispatch(setUser({ user: user, token: response.token }));
+
+      toast.success("Logged in", { id: toastId, duration: 2000 });
+      navigate("/");
+    } catch (error) {
+      toast.error(error?.data?.message, { id: toastId, duration: 2000 });
+      console.error("Error submitting form:", error);
+    }
   };
   return (
     <div className="container py-10">
@@ -21,7 +42,7 @@ const SignIn = () => {
           className="w-[480px] bg-slate-50 p-5 rounded-md"
         >
           <Input name="email" label="Email" type="email" />
-          <Input name="Password" label="Password" type="password" />
+          <Input name="password" label="Password" type="password" />
           <button type="submit" className="form-submit-btn">
             Sing in
           </button>

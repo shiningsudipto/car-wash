@@ -16,7 +16,6 @@ const Input: React.FC<InputProps> = ({
   name,
   label,
   type = "text",
-  value,
   readOnly = false,
   placeholder,
   defaultValue,
@@ -31,7 +30,6 @@ const Input: React.FC<InputProps> = ({
       )}
       <Field
         defaultValue={defaultValue}
-        value={value}
         readOnly={readOnly}
         id={name}
         name={name}

@@ -9,6 +9,8 @@ import { RiDoubleQuotesL } from "react-icons/ri";
 import { RiDoubleQuotesR } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 import { formatDateToDDMMYYYY } from "@/utils/utils";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 
 type TInitialValues = {
   feedback: string;
@@ -22,7 +24,8 @@ const initialValues: TInitialValues = {
 
 const Review = () => {
   const { data, isLoading } = useGetLatestTwoRatingsQuery(undefined);
-  console.log(data?.data);
+  const user = useAppSelector(useCurrentUser);
+  console.log(user);
 
   const onSubmit = (values) => {
     console.log(values);
