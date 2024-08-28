@@ -87,5 +87,5 @@ body {
 }
 
 .form-submit-btn {
-  @apply w-full bg-primary text-white rounded-md py-3 font-semibold;
+  @apply w-full bg-primary text-white rounded-md py-3 px-6 font-semibold;
 }
