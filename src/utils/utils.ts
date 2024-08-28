@@ -21,7 +21,7 @@ export const MenuLinks = [
     name: "Services",
   },
   {
-    path: "/login",
+    path: "/sign-in",
     name: "Login",
   },
 ];
