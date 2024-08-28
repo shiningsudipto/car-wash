@@ -23,6 +23,7 @@ const SignIn = () => {
       const response = await userInfo(values).unwrap();
 
       const user = verifyToken(response.token) as TUser;
+      user.name = response.data.name;
       dispatch(setUser({ user: user, token: response.token }));
 
       toast.success("Logged in", { id: toastId, duration: 2000 });

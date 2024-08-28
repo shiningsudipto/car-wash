@@ -8,7 +8,18 @@ const ratingApi = baseApi.injectEndpoints({
     getAllRatings: builder.query({
       query: () => `/review`,
     }),
+    createReview: builder.mutation({
+      query: (reviewInfo) => ({
+        url: "/review",
+        method: "POST",
+        body: reviewInfo,
+      }),
+    }),
   }),
 });
 
-export const { useGetLatestTwoRatingsQuery, useGetAllRatingsQuery } = ratingApi;
+export const {
+  useGetLatestTwoRatingsQuery,
+  useGetAllRatingsQuery,
+  useCreateReviewMutation,
+} = ratingApi;

@@ -2,7 +2,10 @@ import FormikRating from "@/components/formik/FormikRating";
 import Textarea from "@/components/formik/Textarea";
 import SectionTitle from "@/components/reUsable/SectionTitle";
 import Loader from "@/components/shared/Loader";
-import { useGetLatestTwoRatingsQuery } from "@/redux/features/rating";
+import {
+  useCreateReviewMutation,
+  useGetLatestTwoRatingsQuery,
+} from "@/redux/features/rating";
 import { Form, Formik } from "formik";
 import CountUp from "react-countup";
 import { RiDoubleQuotesL } from "react-icons/ri";
@@ -14,6 +17,7 @@ import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useState } from "react";
 import CustomModal from "@/components/reUsable/CustomModal";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 type TInitialValues = {
   feedback: string;
@@ -29,12 +33,37 @@ const Review = () => {
   const { data, isLoading } = useGetLatestTwoRatingsQuery(undefined);
   const user = useAppSelector(useCurrentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reviewInfo] = useCreateReviewMutation();
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     if (!user) {
       setIsModalOpen(true);
+      return;
     }
-    console.log(values);
+    const toastId = toast.loading("Feedback posting");
+    try {
+      const response = await reviewInfo({
+        email: user.email,
+        name: user.name,
+        rating: values.rating,
+        feedback: values.feedback,
+      });
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Feedback posted", { id: toastId, duration: 2000 });
+      } else {
+        toast.error(response?.error?.data?.errorMessages[0]?.message, {
+          id: toastId,
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log("something went wrong", error);
+      toast.error(error?.data?.message || "An error occurred", {
+        id: toastId,
+        duration: 3000,
+      });
+    }
   };
 
   if (isLoading) {
