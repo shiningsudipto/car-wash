@@ -4,6 +4,7 @@ import SignIn from "@/pages/Signin";
 import SignUp from "@/pages/Signup";
 import Reviews from "@/pages/Reviews";
 import Service from "@/pages/service/Service";
+import Book from "@/pages/book/Book";
 
 export const pageRoutes = [
   {
@@ -21,6 +22,10 @@ export const pageRoutes = [
       {
         path: "reviews",
         element: <Reviews />,
+      },
+      {
+        path: "book-now",
+        element: <Book />,
       },
       {
         path: "sign-in",
