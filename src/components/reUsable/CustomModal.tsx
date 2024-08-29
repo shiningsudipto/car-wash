@@ -6,6 +6,7 @@ interface CustomModalProps {
   setIsOpen: (isOpen: boolean) => void;
   children: ReactNode;
   title?: string;
+  width?: string;
 }
 
 const CustomModal: FC<CustomModalProps> = ({
@@ -13,6 +14,7 @@ const CustomModal: FC<CustomModalProps> = ({
   setIsOpen,
   title,
   children,
+  width,
 }) => {
   if (!isOpen) return null;
 
@@ -22,7 +24,9 @@ const CustomModal: FC<CustomModalProps> = ({
         className="fixed inset-0 bg-black opacity-75"
         onClick={() => setIsOpen(false)}
       ></div>
-      <div className="relative bg-white rounded-lg shadow-lg z-10 max-w-lg w-full">
+      <div
+        className={`relative bg-white rounded-lg shadow-lg z-10 lg:max-w-lg w-full`}
+      >
         {title && (
           <div className="flex justify-between px-5 py-4 bg-primary-foreground rounded-t-lg text-white">
             <h4 className="text-lg font-semibold">This is title</h4>
