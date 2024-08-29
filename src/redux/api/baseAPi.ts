@@ -15,7 +15,7 @@ const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Rating", "Service"],
+  tagTypes: ["Rating", "Service", "Slot", "User"],
   endpoints: () => ({}),
 });
 

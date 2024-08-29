@@ -9,6 +9,13 @@ import { AiOutlineCloseSquare } from "react-icons/ai";
 import { Link, Outlet } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 const MenuLinks = [
   {
     path: "/service-management",
@@ -20,44 +27,125 @@ const MenuLinks = [
   },
   {
     path: "/user-management",
-    name: "User-Management",
+    name: "User Management",
+    children: [
+      {
+        path: "/user-management/bookings",
+        name: "Bookings",
+      },
+      {
+        path: "/user-management",
+        name: "User Management",
+      },
+    ],
   },
 ];
+
 const Dashboard = () => {
   const user = useAppSelector(useCurrentUser);
+
+  const MenuItem = ({
+    path,
+    name,
+    children,
+  }: {
+    path: string;
+    name: string;
+    children?: Array<{ path: string; name: string }>;
+  }) => (
+    <AccordionItem value={path} className="border-b-0">
+      <AccordionTrigger className="py-1">{name}</AccordionTrigger>
+      {children && (
+        <AccordionContent>
+          <ul className="ms-3">
+            {children.map((subRoute) => (
+              <li key={subRoute.path}>
+                <Link
+                  to={`/${user.role + subRoute.path}`}
+                  className="block py-2 text-base"
+                >
+                  {subRoute.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </AccordionContent>
+      )}
+    </AccordionItem>
+  );
+
   return (
     <div>
       <div className="flex">
         <div>
+          {/* Desktop Sidebar */}
           <div className="md:block hidden bg-primary-foreground/10 h-[100vh] p-5">
             <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4">
-              {MenuLinks?.map((menu, idx) => (
-                <Link key={idx} to={`/${user.role + menu?.path}`}>
-                  {menu?.name}
-                </Link>
-              ))}
+              {MenuLinks.map((menu) =>
+                menu.children ? (
+                  <Accordion
+                    key={menu.path}
+                    type="single"
+                    collapsible
+                    className=""
+                  >
+                    <MenuItem
+                      path={`/${user.role}${menu.path}`}
+                      name={menu.name}
+                      children={menu.children}
+                    />
+                  </Accordion>
+                ) : (
+                  <Link
+                    key={menu.path}
+                    to={`/${user.role}${menu.path}`}
+                    className="block"
+                  >
+                    {menu.name}
+                  </Link>
+                )
+              )}
             </div>
           </div>
+
+          {/* Mobile Drawer */}
           <div className="md:hidden block">
             <Drawer direction="left">
               <DrawerTrigger>
-                <IoMenu className="text-2xl" />{" "}
+                <IoMenu className="text-2xl" />
               </DrawerTrigger>
               <DrawerContent className="left-0 top-0 mt-0 rounded-l-none w-[250px] dashboard-drawer">
                 <DrawerClose className="flex justify-end m-2">
-                  <AiOutlineCloseSquare className=" text-3xl p-1" />
+                  <AiOutlineCloseSquare className="text-3xl p-1" />
                 </DrawerClose>
-                <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4">
-                  {MenuLinks?.map((menu, idx) => (
-                    <Link key={idx} to={menu?.path}>
-                      {menu?.name}
-                    </Link>
-                  ))}
-                </div>
+                <Accordion type="single" collapsible className="w-full">
+                  {MenuLinks.map((menu) =>
+                    menu.children ? (
+                      <MenuItem
+                        key={menu.path}
+                        path={`/${user.role}${menu.path}`}
+                        name={menu.name}
+                        children={menu.children}
+                      />
+                    ) : (
+                      <AccordionItem key={menu.path} value={menu.path}>
+                        <AccordionTrigger>
+                          <Link
+                            to={`/${user.role}${menu.path}`}
+                            className="block p-2"
+                          >
+                            {menu.name}
+                          </Link>
+                        </AccordionTrigger>
+                      </AccordionItem>
+                    )
+                  )}
+                </Accordion>
               </DrawerContent>
             </Drawer>
           </div>
         </div>
+
         <div className="p-5 w-full max-h-[100vh] overflow-y-scroll">
           <Outlet />
         </div>
