@@ -7,9 +7,30 @@ import {
 } from "@/components/ui/drawer";
 import { IoMenu } from "react-icons/io5";
 import { AiOutlineCloseSquare } from "react-icons/ai";
-import { MenuLinks } from "@/utils/utils";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Navbar = () => {
+  const user = useAppSelector(useCurrentUser);
+  const MenuLinks = [
+    {
+      path: "/",
+      name: "Home",
+    },
+    {
+      path: "/services",
+      name: "Services",
+    },
+    {
+      path: "/reviews",
+      name: "Reviews",
+    },
+    {
+      path: "/sign-in",
+      name: "Login",
+    },
+  ];
+
   return (
     <div className="h-[60px] flex justify-between items-center lg:px-[60px] px-5 py-2">
       <Link to={"/"} className="flex gap-x-2 items-center">
@@ -25,13 +46,14 @@ const Navbar = () => {
             {menu?.name}
           </Link>
         ))}
+        <Link to={"/admin/dashboard"}>Dashboard</Link>
       </div>
       <div className="md:hidden block">
         <Drawer direction="right">
           <DrawerTrigger>
             <IoMenu className="text-2xl" />{" "}
           </DrawerTrigger>
-          <DrawerContent>
+          <DrawerContent className="right-0 top-0 mt-0 ms-[200px] rounded-r-none">
             <DrawerClose className="flex justify-end m-2">
               <AiOutlineCloseSquare className=" text-3xl p-1" />
             </DrawerClose>
@@ -41,6 +63,7 @@ const Navbar = () => {
                   {menu?.name}
                 </Link>
               ))}
+              <Link to={"/dashboard"}>Dashboard</Link>
             </div>
           </DrawerContent>
         </Drawer>
