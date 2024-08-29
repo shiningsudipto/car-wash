@@ -9,7 +9,16 @@ const serviceApi = baseApi.injectEndpoints({
     getAllServices: builder.query({
       query: (args) => {
         return {
-          url: `/services?search=${args.keyword}&sortOrder=${args.sort}&minDuration=${args.minDuration}&maxDuration=${args.maxDuration}`,
+          url: `/services?search=${args?.keyword}&sortOrder=${args?.sort}&minDuration=${args?.minDuration}&maxDuration=${args?.maxDuration}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Service"],
+    }),
+    getServices: builder.query({
+      query: () => {
+        return {
+          url: `/services`,
           method: "GET",
         };
       },
@@ -18,4 +27,8 @@ const serviceApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllServicesQuery, useGetServiceDetailsQuery } = serviceApi;
+export const {
+  useGetAllServicesQuery,
+  useGetServicesQuery,
+  useGetServiceDetailsQuery,
+} = serviceApi;

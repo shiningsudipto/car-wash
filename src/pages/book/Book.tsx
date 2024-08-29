@@ -1,11 +1,17 @@
 import SectionTitle from "@/components/reUsable/SectionTitle";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { formatDateToDDMMYYYY } from "@/utils/utils";
 import FormikForm from "@/components/formik/FormikForm";
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 import Input from "@/components/formik/Input";
+
+interface InitialValues {
+  name: string;
+  email: string;
+  time: string;
+}
 
 const Book = () => {
   const location = useLocation();
@@ -13,15 +19,15 @@ const Book = () => {
   const serviceDetails = selectedSlot[0];
   const slotDetails = selectedSlot[1];
 
-  const userInfo = useAppSelector(useCurrentUser);
+  const userInfo = useAppSelector(useCurrentUser) as TUser;
 
-  const initialValues = {
-    name: userInfo.name,
-    email: userInfo.email,
+  const initialValues: InitialValues = {
+    name: userInfo?.name || "",
+    email: userInfo?.email || "",
     time: `${slotDetails?.startTime} - ${slotDetails?.endTime}`,
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: InitialValues) => {
     console.log(values);
   };
 

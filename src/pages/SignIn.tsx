@@ -7,6 +7,11 @@ import { verifyToken } from "@/utils/verifyToken";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+type TInitialValues = {
+  email: string;
+  password: string;
+};
+
 const initialValues = {
   email: "cwuser@gmail.com",
   password: "123456",
@@ -17,7 +22,7 @@ const SignIn = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: TInitialValues) => {
     const toastId = toast.loading("Logging in");
     try {
       const response = await userInfo(values).unwrap();
@@ -29,7 +34,7 @@ const SignIn = () => {
       toast.success("Logged in", { id: toastId, duration: 2000 });
       navigate("/");
     } catch (error) {
-      toast.error(error?.data?.message, { id: toastId, duration: 2000 });
+      toast.error("Something went wrong", { id: toastId, duration: 2000 });
       console.error("Error submitting form:", error);
     }
   };
@@ -40,7 +45,7 @@ const SignIn = () => {
         <FormikForm
           initialValues={initialValues}
           onSubmit={onSubmit}
-          className="w-[480px] bg-slate-50 p-5 rounded-md"
+          className="lg:w-[480px] bg-slate-50 p-5 rounded-md"
         >
           <Input name="email" label="Email" type="email" />
           <Input name="password" label="Password" type="password" />

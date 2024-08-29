@@ -6,18 +6,19 @@ import {
   useCreateReviewMutation,
   useGetLatestTwoRatingsQuery,
 } from "@/redux/features/rating";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import CountUp from "react-countup";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import { RiDoubleQuotesR } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 import { formatDateToDDMMYYYY } from "@/utils/utils";
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useState } from "react";
 import CustomModal from "@/components/reUsable/CustomModal";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { TReview } from "@/types";
 
 type TInitialValues = {
   feedback: string;
@@ -31,11 +32,11 @@ const initialValues: TInitialValues = {
 
 const Review = () => {
   const { data, isLoading } = useGetLatestTwoRatingsQuery(undefined);
-  const user = useAppSelector(useCurrentUser);
+  const user = useAppSelector(useCurrentUser) as TUser;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewInfo] = useCreateReviewMutation();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: TInitialValues) => {
     if (!user) {
       setIsModalOpen(true);
       return;
@@ -47,7 +48,7 @@ const Review = () => {
         name: user.name,
         rating: values.rating,
         feedback: values.feedback,
-      });
+      }).unwrap();
       if (response.data.statusCode === 200) {
         toast.success("Feedback posted", { id: toastId, duration: 2000 });
       } else {
@@ -58,7 +59,7 @@ const Review = () => {
       }
     } catch (error) {
       console.log("something went wrong", error);
-      toast.error(error?.data?.message || "An error occurred", {
+      toast.error("An error occurred", {
         id: toastId,
         duration: 3000,
       });
@@ -120,7 +121,7 @@ const Review = () => {
         <div className="w-[50%]">
           <h3 className="text-2xl font-semibold mb-5">Rate Your Experience</h3>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {({ setFieldValue, values }: FormikProps<T>) => {
+            {({ setFieldValue, values }: FormikProps<TInitialValues>) => {
               return (
                 <Form className="space-y-5">
                   <Textarea name="feedback" label="Your feedback" />
@@ -147,7 +148,7 @@ const Review = () => {
           </h3>
         </div>
         <div className="grid grid-cols-2 gap-x-[70px] ">
-          {data?.data?.result?.map((item) => {
+          {data?.data?.result?.map((item: TReview) => {
             return (
               <div
                 key={item?._id}

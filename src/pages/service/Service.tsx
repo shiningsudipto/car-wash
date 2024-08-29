@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import { BsCurrencyDollar } from "react-icons/bs";
 import Input from "@/components/formik/Input";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import Dropdown from "@/components/formik/Dropdown";
 import {
   maxDurationOptions,
@@ -13,8 +13,16 @@ import {
   sortOptions,
 } from "@/utils/list.utils";
 import { useState } from "react";
+import { TService } from "@/types";
 
-const initialValues = {
+interface TSearchFormValues {
+  keyword: string;
+  sort: "asc" | "desc"; // Assuming sort can only be 'asc' or 'desc'
+  minDuration: string;
+  maxDuration: string;
+}
+
+const initialValues: TSearchFormValues = {
   keyword: "",
   sort: "asc",
   minDuration: "",
@@ -26,7 +34,7 @@ const Service = () => {
   const { data, isLoading } = useGetAllServicesQuery(searchValues);
   console.log(data);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: TSearchFormValues) => {
     console.log(values);
     setSearchValues(values);
   };
@@ -42,7 +50,7 @@ const Service = () => {
       />
       <div>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {({ setFieldValue, values }: FormikProps<T>) => {
+          {({ setFieldValue }: FormikProps<TSearchFormValues>) => {
             return (
               <Form className="flex items-center gap-x-5 mb-10">
                 <Dropdown
@@ -78,7 +86,7 @@ const Service = () => {
         </Formik>
       </div>
       <div className="grid grid-cols-3 gap-5">
-        {data?.data.map((item) => {
+        {data?.data.map((item: TService) => {
           return (
             <div
               key={item?._id}

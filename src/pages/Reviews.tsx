@@ -5,6 +5,7 @@ import { RiDoubleQuotesL } from "react-icons/ri";
 import { RiDoubleQuotesR } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 import { formatDateToDDMMYYYY } from "@/utils/utils";
+import { TReview } from "@/types";
 
 const Reviews = () => {
   const { data, isLoading } = useGetAllRatingsQuery(undefined);
@@ -21,7 +22,7 @@ const Reviews = () => {
       />
       <div>
         <div className="grid grid-cols-2 gap-5">
-          {data?.data?.result?.map((item) => {
+          {data?.data?.result?.map((item: TReview) => {
             return (
               <div
                 key={item?._id}

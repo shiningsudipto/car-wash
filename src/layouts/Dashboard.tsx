@@ -29,7 +29,7 @@ const Dashboard = () => {
     <div>
       <div className="flex">
         <div>
-          <div className="md:block hidden w-[250px] bg-primary-foreground/10 h-[100vh] p-5">
+          <div className="md:block hidden bg-primary-foreground/10 h-[100vh] p-5">
             <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4">
               {MenuLinks?.map((menu, idx) => (
                 <Link key={idx} to={`/${user.role + menu?.path}`}>
@@ -53,13 +53,12 @@ const Dashboard = () => {
                       {menu?.name}
                     </Link>
                   ))}
-                  <Link to={"/admin/dashboard"}>Dashboard</Link>
                 </div>
               </DrawerContent>
             </Drawer>
           </div>
         </div>
-        <div className="p-5">
+        <div className="p-5 w-full max-h-[100vh] overflow-y-scroll">
           <Outlet />
         </div>
       </div>

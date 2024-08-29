@@ -3,10 +3,15 @@ import Loader from "@/components/shared/Loader";
 import { useGetServiceDetailsQuery } from "@/redux/features/service";
 import { Link, useParams } from "react-router-dom";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { Field, FieldProps, Form, Formik } from "formik";
+import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
 import { useState } from "react";
+import { TService, TSlot } from "@/types";
 
-const initialValues = {
+interface InitialValues {
+  slot: string;
+}
+
+const initialValues: InitialValues = {
   slot: "",
 };
 
@@ -14,12 +19,12 @@ const Details = () => {
   const params = useParams();
   const serviceId = params?.id;
   const { data, isLoading } = useGetServiceDetailsQuery({ id: serviceId });
-  const [selectedSlot, setSetSelectedSlot] = useState([]);
-  const serviceDetails = data?.data?.service;
+  const [selectedSlot, setSetSelectedSlot] = useState<(TService | TSlot)[]>([]);
+  const serviceDetails = data?.data?.service as TService;
   const availableSlots = data?.data?.slots;
   // console.log(serviceDetails, availableSlots);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: InitialValues) => {
     console.log(values);
   };
 
@@ -34,13 +39,13 @@ const Details = () => {
         subTitle={serviceDetails?.description}
       />
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        {({ values }: FormikProps<T>) => {
+        {({ values }: FormikProps<InitialValues>) => {
           return (
             <Form className="">
               <div className="grid grid-cols-3 gap-5">
                 <Field name="slot">
                   {({ field }: FieldProps) => {
-                    return availableSlots?.map((option) => {
+                    return availableSlots?.map((option: TSlot) => {
                       const checkedValue = field?.value === option?._id;
                       const isBooked = option.isBooked === "booked";
                       return (

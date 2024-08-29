@@ -4,7 +4,15 @@ import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
-const initialValues = {
+type TInitialValues = {
+  name: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  address: string;
+};
+
+const initialValues: TInitialValues = {
   name: "",
   email: "",
   password: "",
@@ -14,7 +22,7 @@ const initialValues = {
 
 const SignUp = () => {
   const [userInfo] = useRegistrationMutation();
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: TInitialValues) => {
     try {
       const response = await userInfo(values).unwrap();
       console.log("response", response);
@@ -22,8 +30,8 @@ const SignUp = () => {
         toast.success(response.message);
       }
     } catch (error) {
-      toast.error(error?.data?.message);
-      console.error("Error submitting form:", error?.data?.message);
+      toast.error("Something went wrong");
+      console.error("Error submitting form:", error);
     }
   };
   return (
