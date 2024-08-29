@@ -1,14 +1,14 @@
-export interface ErrorMessage {
+export interface TErrorMessage {
   path: string;
   message: string;
 }
 
-export interface ErrorResponse {
+export interface TErrorResponse {
   status: number;
   data: {
     success: boolean;
     message: string;
-    errorMessages: ErrorMessage[];
+    errorMessages: TErrorMessage[];
   };
 }
 
