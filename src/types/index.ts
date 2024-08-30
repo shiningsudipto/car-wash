@@ -80,3 +80,8 @@ export type TUserResponse = {
   updatedAt: string;
   __v: number;
 };
+
+export type TLabelValue = {
+  label: string;
+  value: string;
+};

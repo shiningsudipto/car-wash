@@ -1,11 +1,19 @@
 import Dropdown from "@/components/formik/Dropdown";
+import Input from "@/components/formik/Input";
 import CustomModal from "@/components/reUsable/CustomModal";
 import SectionTitle from "@/components/reUsable/SectionTitle";
 import Loader from "@/components/shared/Loader";
-import { useGetAllSlotsQuery } from "@/redux/features/slot";
-import { TSlotWithService } from "@/types";
+import { useGetServicesQuery } from "@/redux/features/service";
+import {
+  useCreateSlotMutation,
+  useGetAllSlotsQuery,
+  useUpdateSlotMutation,
+} from "@/redux/features/slot";
+import { TErrorResponse, TSlotWithService } from "@/types";
+import { servicesToDropdownOption } from "@/utils/utils";
 import { Form, Formik, FormikProps } from "formik";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const slotStatusOptions = [
   {
@@ -21,11 +29,28 @@ const slotStatusOptions = [
 type TInitialValues = {
   isBooked: string;
 };
+type TCreateSlotInitialValues = {
+  service: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+};
+
+const createSlotInitialValues: TCreateSlotInitialValues = {
+  service: "",
+  date: "",
+  startTime: "",
+  endTime: "",
+};
 
 const SlotManagement = () => {
   const { data, isLoading } = useGetAllSlotsQuery(undefined);
+  const { data: servicesData } = useGetServicesQuery(undefined);
+  const [updateSlot] = useUpdateSlotMutation();
+  const [createSlot] = useCreateSlotMutation();
   // modal
   const [isSlotUpdateModalOpen, setSlotUpdateModalOpen] = useState(false);
+  const [isSlotCreateModalOpen, setSlotCreateModalOpen] = useState(false);
   // utils
   const [selectedSlot, setSelectedSlot] = useState<TSlotWithService | null>(
     null
@@ -37,6 +62,42 @@ const SlotManagement = () => {
 
   const handleUpdateSlot = async (values: TInitialValues) => {
     console.log(values);
+    setSlotUpdateModalOpen(false);
+    const toastId = toast.loading("Slot updating");
+    if (selectedSlot) {
+      try {
+        const response = await updateSlot({
+          slotInfo: values,
+          id: selectedSlot._id,
+        }).unwrap();
+        toast.success(response.message, { id: toastId, duration: 2000 });
+      } catch (error) {
+        console.log(error);
+        const err = error as TErrorResponse;
+        toast.error(err?.data?.errorMessages[0].message, {
+          id: toastId,
+          duration: 2000,
+        });
+      }
+    }
+  };
+  const handleCreateSlot = async (values: TCreateSlotInitialValues) => {
+    console.log(values);
+    setSlotCreateModalOpen(false);
+    const toastId = toast.loading("Slot creating");
+
+    try {
+      const response = await createSlot(values).unwrap();
+      console.log("response", response);
+      toast.success(response.message, { id: toastId, duration: 2000 });
+    } catch (error) {
+      console.log(error);
+      const err = error as TErrorResponse;
+      toast.error(err?.data?.errorMessages[0].message, {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
 
   if (isLoading) {
@@ -49,6 +110,14 @@ const SlotManagement = () => {
           title="Slot Management"
           subTitle="Overview and manage slot"
         />
+        <div className="flex justify-end mb-5">
+          <button
+            onClick={() => setSlotCreateModalOpen(true)}
+            className="form-submit-btn"
+          >
+            Create slot
+          </button>
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
@@ -112,6 +181,7 @@ const SlotManagement = () => {
           </table>
         </div>
       </div>
+      {/* slot update */}
       <CustomModal
         isOpen={isSlotUpdateModalOpen}
         setIsOpen={setSlotUpdateModalOpen}
@@ -127,6 +197,41 @@ const SlotManagement = () => {
                   placeholder="Select status"
                 />
                 <button className="form-submit-btn w-full">Submit</button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </CustomModal>
+      {/* slot create */}
+      <CustomModal
+        isOpen={isSlotCreateModalOpen}
+        setIsOpen={setSlotCreateModalOpen}
+      >
+        <Formik
+          initialValues={createSlotInitialValues}
+          onSubmit={handleCreateSlot}
+        >
+          {({ setFieldValue }: FormikProps<TCreateSlotInitialValues>) => {
+            return (
+              <Form className="space-y-5">
+                <Dropdown
+                  name="service"
+                  options={servicesToDropdownOption(servicesData.data)}
+                  setFieldValue={setFieldValue}
+                  placeholder="Select service"
+                />
+                <Input name="date" label="Date" placeholder="ex: YYYY-MM-DD" />
+                <Input
+                  name="startTime"
+                  label="Start time"
+                  placeholder="ex: 10:00"
+                />
+                <Input
+                  name="endTime"
+                  label="End time"
+                  placeholder="ex: 17:00"
+                />
+                <button className="form-submit-btn w-full">Create slot</button>
               </Form>
             );
           }}

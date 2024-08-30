@@ -6,14 +6,27 @@ const slotApi = baseApi.injectEndpoints({
       query: () => `/slots/all-slots`,
       providesTags: ["Slot"],
     }),
-    login: builder.mutation({
-      query: (userInfo) => ({
-        url: "/auth/login",
-        method: "POST",
-        body: userInfo,
+    updateSlot: builder.mutation({
+      query: ({ slotInfo, id }) => ({
+        url: `/slots/update-slot/${id}`,
+        method: "PUT",
+        body: slotInfo,
       }),
+      invalidatesTags: ["Slot"],
+    }),
+    createSlot: builder.mutation({
+      query: (slotInfo) => ({
+        url: `/services/slots`,
+        method: "POST",
+        body: slotInfo,
+      }),
+      invalidatesTags: ["Slot"],
     }),
   }),
 });
 
-export const { useGetAllSlotsQuery } = slotApi;
+export const {
+  useGetAllSlotsQuery,
+  useUpdateSlotMutation,
+  useCreateSlotMutation,
+} = slotApi;

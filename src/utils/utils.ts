@@ -1,3 +1,5 @@
+import { TLabelValue, TService } from "@/types";
+
 export const formatDateToDDMMYYYY = (isoDateString: string): string => {
   // Create a Date object from the ISO date string
   const date = new Date(isoDateString);
@@ -9,6 +11,15 @@ export const formatDateToDDMMYYYY = (isoDateString: string): string => {
 
   // Return the date in DD-MM-YYYY format
   return `${day}-${month}-${year}`;
+};
+
+export const servicesToDropdownOption = (
+  services: TService[]
+): TLabelValue[] => {
+  return services.map((service) => ({
+    label: service.name,
+    value: service._id,
+  }));
 };
 
 export const MenuLinks = [
