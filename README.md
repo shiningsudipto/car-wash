@@ -10,7 +10,7 @@
 
 > admin - email :-> cwadmin@gmail.com - pass :-> 123456
 
-## Frontend Technologies
+## Technology Stack
 
 - React
 - Typescript
@@ -49,7 +49,7 @@
 - Past Bookings
 - Upcoming Bookings
 
-## How to run locally?
+## Installation Guideline
 
 - Clone repository
 
