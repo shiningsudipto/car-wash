@@ -18,6 +18,12 @@ import {
 import { userRole } from "@/utils/const.utils";
 import Navbar from "@/components/shared/Navbar";
 
+type TRoute = {
+  path: string;
+  name: string;
+  children?: TRoute[];
+};
+
 const adminRoutes = [
   {
     path: "/service-management",
@@ -112,7 +118,7 @@ const Dashboard = () => {
           {/* Desktop Sidebar */}
           <div className="md:block hidden bg-primary-foreground/10 h-[100vh] p-5">
             <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4">
-              {sidebarItems?.map((menu) =>
+              {sidebarItems?.map((menu: TRoute) =>
                 menu?.children ? (
                   <Accordion
                     key={menu.path}
@@ -150,7 +156,7 @@ const Dashboard = () => {
                   <AiOutlineCloseSquare className="text-3xl p-1" />
                 </DrawerClose>
                 <Accordion type="single" collapsible className="w-full">
-                  {sidebarItems?.map((menu) =>
+                  {sidebarItems?.map((menu: TRoute) =>
                     menu?.children ? (
                       <MenuItem
                         key={menu.path}

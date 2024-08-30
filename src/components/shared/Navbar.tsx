@@ -19,6 +19,24 @@ const Navbar = () => {
     dispatch(logout());
   };
 
+  const conditionalLinks = (
+    <>
+      {!user && (
+        <Link to={"/sign-in"} className="primary-border-btn">
+          Login
+        </Link>
+      )}
+      {user && (
+        <div className="flex items-center gap-x-3">
+          <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
+          <button onClick={handleLogout} className="primary-border-btn">
+            Logout
+          </button>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className="h-[60px] flex justify-between items-center lg:px-[60px] px-5 py-2 bg-primary-foreground/10 text-slate-950">
       <Link to={"/"} className="flex gap-x-2 items-center">
@@ -34,19 +52,7 @@ const Navbar = () => {
             {menu?.name}
           </Link>
         ))}
-        {!user && (
-          <Link to={"/sign-in"} className="primary-border-btn">
-            Login
-          </Link>
-        )}
-        {user && (
-          <div className="flex items-center gap-x-3">
-            <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
-            <button onClick={handleLogout} className="primary-border-btn">
-              Logout
-            </button>
-          </div>
-        )}
+        {conditionalLinks}
       </div>
       <div className="md:hidden block">
         <Drawer direction="right">
@@ -63,7 +69,7 @@ const Navbar = () => {
                   {menu?.name}
                 </Link>
               ))}
-              <Link to={"/dashboard"}>Dashboard</Link>
+              {conditionalLinks}
             </div>
           </DrawerContent>
         </Drawer>

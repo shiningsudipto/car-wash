@@ -13,8 +13,8 @@ type TInitialValues = {
 };
 
 const initialValues = {
-  email: "cwuser@gmail.com",
-  password: "123456",
+  email: "",
+  password: "",
 };
 
 const SignIn = () => {
