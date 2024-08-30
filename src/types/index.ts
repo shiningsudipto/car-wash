@@ -47,20 +47,14 @@ export interface TReview {
   __v: number;
 }
 
-// api error
-
-export interface TErrorMessage {
-  path: string;
-  message: string;
-}
-
-export interface TErrorData {
-  success: boolean;
-  message: string;
-  errorMessages: TErrorMessage[];
-}
-
-export interface TApiError {
-  status: number;
-  data: TErrorData;
-}
+export type TUserResponse = {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};

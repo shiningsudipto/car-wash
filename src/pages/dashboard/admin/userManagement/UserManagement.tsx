@@ -1,7 +1,26 @@
+import Dropdown from "@/components/formik/Dropdown";
 import CustomModal from "@/components/reUsable/CustomModal";
+import SectionTitle from "@/components/reUsable/SectionTitle";
 import Loader from "@/components/shared/Loader";
-import { useGetAllUsersQuery } from "@/redux/features/user";
+import {
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+} from "@/redux/features/user";
+import { TErrorResponse, TUserResponse } from "@/types";
+import { Form, Formik, FormikProps } from "formik";
 import { useState } from "react";
+import { toast } from "sonner";
+
+const userRoleOptions = [
+  {
+    label: "User",
+    value: "user",
+  },
+  {
+    label: "Admin",
+    value: "admin",
+  },
+];
 
 type TInitialValues = {
   role: string;
@@ -9,16 +28,34 @@ type TInitialValues = {
 
 const UserManagement = () => {
   const { data, isLoading } = useGetAllUsersQuery(undefined);
+  const [updateUser] = useUpdateUserMutation();
   // modal
   const [isUserUpdateModalOpen, setUserUpdateModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState<TUserResponse | null>(null);
 
   const initialValues: TInitialValues = {
-    role: userInfo.role,
+    role: userInfo?.role || "",
   };
 
   const handleUserUpdate = async (values: TInitialValues) => {
-    console.log(values);
+    setUserUpdateModalOpen(false);
+    const toastId = toast.loading("User updating");
+    if (userInfo) {
+      try {
+        const response = await updateUser({
+          userRole: values,
+          id: userInfo._id,
+        }).unwrap();
+        toast.success(response.message, { id: toastId, duration: 2000 });
+      } catch (error) {
+        console.log(error);
+        const err = error as TErrorResponse;
+        toast.error(err?.data?.errorMessages[0].message, {
+          id: toastId,
+          duration: 2000,
+        });
+      }
+    }
   };
 
   if (isLoading) {
@@ -28,7 +65,10 @@ const UserManagement = () => {
   return (
     <>
       <div className="">
-        <h1 className="text-xl font-bold mb-4">User Management</h1>
+        <SectionTitle
+          title="User Management"
+          subTitle="Overview and manage user roles"
+        />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
@@ -51,7 +91,7 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.data.map((user) => (
+              {data?.data.map((user: TUserResponse) => (
                 <tr key={user._id} className="hover:bg-gray-100">
                   <td className="px-6 py-4 border-b border-gray-200">
                     {user.name}
@@ -69,7 +109,8 @@ const UserManagement = () => {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => {
-                          // Add your edit logic here
+                          setUserInfo(user);
+                          setUserUpdateModalOpen(true);
                         }}
                         className="text-white bg-primary-foreground py-1 px-4 rounded-md font-medium"
                       >
@@ -87,7 +128,21 @@ const UserManagement = () => {
         isOpen={isUserUpdateModalOpen}
         setIsOpen={setUserUpdateModalOpen}
       >
-        <div></div>
+        <Formik initialValues={initialValues} onSubmit={handleUserUpdate}>
+          {({ setFieldValue }: FormikProps<TInitialValues>) => {
+            return (
+              <Form className="space-y-5">
+                <Dropdown
+                  name="role"
+                  options={userRoleOptions}
+                  setFieldValue={setFieldValue}
+                  placeholder="Select role"
+                />
+                <button className="form-submit-btn">Submit</button>
+              </Form>
+            );
+          }}
+        </Formik>
       </CustomModal>
     </>
   );
