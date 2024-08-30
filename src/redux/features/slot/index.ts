@@ -2,9 +2,9 @@ import baseApi from "../../api/baseAPi";
 
 const slotApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getSlots: builder.query({
-      query: () => `/services`,
-      providesTags: ["Service"],
+    getAllSlots: builder.query({
+      query: () => `/slots/all-slots`,
+      providesTags: ["Slot"],
     }),
     login: builder.mutation({
       query: (userInfo) => ({
@@ -16,4 +16,4 @@ const slotApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = slotApi;
+export const { useGetAllSlotsQuery } = slotApi;

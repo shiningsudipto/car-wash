@@ -24,6 +24,28 @@ export interface TSlot {
   updatedAt: string;
 }
 
+export type TSlotWithService = {
+  _id: string;
+  service: {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    duration: number;
+    isDeleted: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  date: string;
+  startTime: string;
+  endTime: string;
+  isBooked: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export interface TService {
   _id: string;
   name: string;
