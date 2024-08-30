@@ -6,14 +6,11 @@ const bookingApi = baseApi.injectEndpoints({
       query: () => `/bookings`,
       providesTags: ["Booking"],
     }),
-    login: builder.mutation({
-      query: (userInfo) => ({
-        url: "/auth/login",
-        method: "POST",
-        body: userInfo,
-      }),
+    getMyBooking: builder.query({
+      query: () => `/my-bookings`,
+      providesTags: ["Booking"],
     }),
   }),
 });
 
-export const { useGetAllBookingsQuery } = bookingApi;
+export const { useGetAllBookingsQuery, useGetMyBookingQuery } = bookingApi;

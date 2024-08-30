@@ -53,7 +53,7 @@ const userRoutes = [
   },
   {
     path: "/upcoming-bookings",
-    name: "Past Bookings",
+    name: "Upcoming Bookings",
   },
 ];
 

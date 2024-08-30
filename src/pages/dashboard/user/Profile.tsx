@@ -32,7 +32,6 @@ const Profile = () => {
   };
 
   const onSubmit = async (values: TEditUserInitialValues) => {
-    console.log(values);
     setEditUserModalOpen(false);
     const toastId = toast.loading("User updating");
     if (userInfo) {

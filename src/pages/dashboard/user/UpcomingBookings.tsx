@@ -1,7 +1,65 @@
+// pages/UpcomingBookings.tsx
+import { useGetMyBookingQuery } from "@/redux/features/booking";
+import { TBooking } from "@/types/booking.type";
+import CountdownTimer from "@/components/shared/CountdownTimer";
+import SectionTitle from "@/components/reUsable/SectionTitle";
+
 const UpcomingBookings = () => {
+  const { data, isLoading, error } = useGetMyBookingQuery(undefined);
+  const bookingData = data?.data || [];
+
+  const filterUpcomingBookings = (bookings: TBooking[]): TBooking[] => {
+    const now = new Date();
+    const currentDate = now.toISOString().split("T")[0]; // YYYY-MM-DD
+
+    return bookings.filter((booking) => {
+      const bookingDate = new Date(booking.slot.date);
+      const bookingDateStr = bookingDate.toISOString().split("T")[0];
+      return bookingDateStr >= currentDate;
+    });
+  };
+
+  const getTargetDateTime = (date: string, startTime: string): Date => {
+    const [hours, minutes] = startTime.split(":").map(Number);
+    const targetDate = new Date(date);
+    targetDate.setHours(hours, minutes, 0, 0); // Set the time to the startTime
+    return targetDate;
+  };
+
+  const futureBookings = filterUpcomingBookings(bookingData);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading bookings</p>;
+
   return (
     <div>
-      <p>Hello, UpcomingBookings!</p>
+      <SectionTitle
+        title="Upcoming Bookings"
+        subTitle="Overview of Upcoming Bookings"
+      />
+      <div className="space-y-4 grid grid-cols-4">
+        {futureBookings.map((booking) => {
+          const targetDateTime = getTargetDateTime(
+            booking.slot.date,
+            booking.slot.startTime
+          );
+          console.log("Target DateTime:", targetDateTime); // Debugging line
+          return (
+            <div key={booking._id} className="border p-4 rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold">{booking.service.name}</h2>
+              <p>{booking.service.description}</p>
+              <p>Date: {new Date(booking.slot.date).toLocaleDateString()}</p>
+              <p>
+                Time: {booking.slot.startTime} - {booking.slot.endTime}
+              </p>
+              <p>
+                Vehicle: {booking.vehicleBrand} {booking.vehicleModel}
+              </p>
+              <CountdownTimer targetDateTime={targetDateTime} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
