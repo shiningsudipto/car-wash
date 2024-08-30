@@ -49,7 +49,7 @@ const Review = () => {
         rating: values.rating,
         feedback: values.feedback,
       }).unwrap();
-      if (response.data.statusCode === 200) {
+      if (response?.data.statusCode === 200) {
         toast.success("Feedback posted", { id: toastId, duration: 2000 });
       } else {
         toast.error(response?.error?.data?.errorMessages[0]?.message, {
@@ -98,7 +98,7 @@ const Review = () => {
               <p className="text-xl font-medium">
                 Average rating:{" "}
                 <span className="text-3xl font-bold">
-                  {data.data.averageRating}
+                  {data?.data?.averageRating}
                 </span>
               </p>
             </div>
@@ -106,7 +106,7 @@ const Review = () => {
             <CountUp
               className="text-5xl font-bold "
               start={0}
-              end={data.data.totalRating}
+              end={data?.data?.totalRating}
               duration={5}
               delay={1}
             ></CountUp>
@@ -159,7 +159,7 @@ const Review = () => {
                   Rated: {item?.rating} <FaStar className="text-primary" />
                 </p>
                 <p className="flex items-center gap-x-1 font-medium ">
-                  Date: {formatDateToDDMMYYYY(item.createdAt)}
+                  Date: {formatDateToDDMMYYYY(item?.createdAt)}
                 </p>
                 <p className="flex items-center text-xl font-medium">
                   <RiDoubleQuotesL /> {item?.feedback} <RiDoubleQuotesR />

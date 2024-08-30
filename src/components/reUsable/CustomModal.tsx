@@ -14,7 +14,6 @@ const CustomModal: FC<CustomModalProps> = ({
   setIsOpen,
   title,
   children,
-  width,
 }) => {
   if (!isOpen) return null;
 
