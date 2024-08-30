@@ -27,7 +27,7 @@ const Navbar = () => {
         </Link>
       )}
       {user && (
-        <div className="flex items-center gap-x-3">
+        <div className="flex lg:flex-row flex-col lg:items-center gap-3">
           <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
           <button onClick={handleLogout} className="primary-border-btn">
             Logout

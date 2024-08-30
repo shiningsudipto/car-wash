@@ -22,7 +22,7 @@ const Input: React.FC<InputProps> = ({
   required = false,
 }) => {
   return (
-    <div className="flex flex-col flex-grow font-publicSans">
+    <div className="flex flex-col flex-grow font-publicSans lg:w-auto w-full">
       {label && (
         <label htmlFor={name} className="font-medium mb-2">
           {label}

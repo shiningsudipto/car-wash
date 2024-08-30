@@ -52,18 +52,18 @@ const Banner = () => {
               <img
                 src={item.img}
                 alt=""
-                className="w-full h-[500px] object-cover"
+                className="w-full lg:h-[500px] h-[350px] object-cover"
               />
-              <div className="absolute top-0 overlay text-white flex flex-col justify-center items-center">
-                <h1 className="text-5xl font-bold">
+              <div className="absolute top-0 overlay text-white flex flex-col justify-center items-center p-5">
+                <h1 className="lg:text-5xl text-3xl font-bold">
                   Experience Premium <span className="text-primary">Car</span>{" "}
                   <span className="text-primary-foreground">Wash</span> Services
                 </h1>
-                <h2 className="text-4xl font-semibold mt-5">
+                <h2 className="lg:text-4xl text-xl font-semibold mt-5">
                   We make your car shine like new with our expert care
                 </h2>
                 <div className="text-center mt-6">
-                  <button className="bg-primary hover:bg-primary-foreground text-xl py-3 px-6 font-medium">
+                  <button className="bg-primary hover:bg-primary-foreground text-xl lg:py-3 py-2 lg:px-6 px-4 rounded-md font-medium">
                     Shine Your Ride
                   </button>
                   <p className="text-xl font-semibold mt-2">

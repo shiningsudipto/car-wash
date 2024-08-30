@@ -48,7 +48,7 @@ const SignUp = () => {
           <Input name="password" label="Password" type="password" />
           <Input name="phone" label="Prone" />
           <Input name="address" label="Address" />
-          <button type="submit" className="form-submit-btn">
+          <button type="submit" className="form-submit-btn w-full">
             Sing up
           </button>
           <p>

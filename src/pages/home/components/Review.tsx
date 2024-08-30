@@ -87,8 +87,8 @@ const Review = () => {
           </Link>
         </div>
       </CustomModal>
-      <div className="flex justify-between gap-x-[70px]">
-        <div className="w-[50%] bg-primary-foreground p-5 rounded-md text-white">
+      <div className="flex lg:flex-row flex-col justify-between gap-y-5 gap-x-[70px]">
+        <div className="lg:w-[50%] bg-primary-foreground p-5 rounded-md text-white">
           <h3 className="text-2xl font-semibold mb-4">Our Customers Love Us</h3>
           <h4 className="text-xl font font-medium">
             See the average rating based on customer feedback and reviews.
@@ -118,7 +118,7 @@ const Review = () => {
             </Link>
           </div>
         </div>
-        <div className="w-[50%]">
+        <div className="lg:w-[50%]">
           <h3 className="text-2xl font-semibold mb-5">Rate Your Experience</h3>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ setFieldValue, values }: FormikProps<TInitialValues>) => {
@@ -147,7 +147,7 @@ const Review = () => {
             Feedback <RiDoubleQuotesR className="text-primary" />
           </h3>
         </div>
-        <div className="grid grid-cols-2 gap-x-[70px] ">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-y-5 gap-x-[70px] ">
           {data?.data?.result?.map((item: TReview) => {
             return (
               <div

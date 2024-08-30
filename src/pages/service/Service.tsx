@@ -61,7 +61,7 @@ const Service = () => {
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({ setFieldValue }: FormikProps<TSearchFormValues>) => {
             return (
-              <Form className="flex items-center gap-x-5 mb-10">
+              <Form className="flex lg:flex-row flex-col items-center gap-5 mb-10 w-full">
                 <Dropdown
                   name="sort"
                   options={sortOptions}
@@ -86,7 +86,7 @@ const Service = () => {
                   optionsLabel="Maximum duration"
                 />
                 <Input name="keyword" />
-                <button className="h-[50px] w-[150px] bg-primary text-white font-semibold rounded-md">
+                <button className="h-[50px] lg:w-[150px] w-full bg-primary text-white font-semibold rounded-md">
                   Submit
                 </button>
               </Form>
@@ -94,7 +94,7 @@ const Service = () => {
           }}
         </Formik>
       </div>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-3 grid-cols-1 gap-5">
         {data?.data.map((item: TService) => {
           return (
             <div

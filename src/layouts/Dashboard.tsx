@@ -146,35 +146,42 @@ const Dashboard = () => {
           </div>
 
           {/* Mobile Drawer */}
-          <div className="md:hidden block">
+          <div className="md:hidden block bg-primary-foreground/20 h-[100vh] p-3">
             <Drawer direction="left">
               <DrawerTrigger>
                 <IoMenu className="text-2xl" />
               </DrawerTrigger>
-              <DrawerContent className="left-0 top-0 mt-0 rounded-l-none w-[250px] dashboard-drawer">
+              <DrawerContent className="left-0 top-0 mt-0 rounded-l-none w-[220px] dashboard-drawer">
                 <DrawerClose className="flex justify-end m-2">
                   <AiOutlineCloseSquare className="text-3xl p-1" />
                 </DrawerClose>
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full p-5 space-y-3"
+                >
                   {sidebarItems?.map((menu: TRoute) =>
                     menu?.children ? (
-                      <MenuItem
+                      <Accordion
                         key={menu.path}
-                        path={`/${user.role}${menu.path}`}
-                        name={menu.name}
-                        children={menu?.children}
-                      />
+                        type="single"
+                        collapsible
+                        className=""
+                      >
+                        <MenuItem
+                          path={`/${user.role}${menu.path}`}
+                          name={menu.name}
+                          children={menu?.children}
+                        />
+                      </Accordion>
                     ) : (
-                      <AccordionItem key={menu.path} value={menu.path}>
-                        <AccordionTrigger>
-                          <Link
-                            to={`/${user.role}${menu.path}`}
-                            className="block p-2"
-                          >
-                            {menu.name}
-                          </Link>
-                        </AccordionTrigger>
-                      </AccordionItem>
+                      <Link
+                        key={menu.path}
+                        to={`/${user.role}${menu.path}`}
+                        className="block"
+                      >
+                        {menu.name}
+                      </Link>
                     )
                   )}
                 </Accordion>

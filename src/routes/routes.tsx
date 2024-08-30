@@ -7,6 +7,7 @@ import NotFound from "@/pages/NotFound";
 import Dashboard from "@/layouts/Dashboard";
 import { adminRoutes } from "./admin.routes";
 import { userRoutes } from "./user.routes";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -16,12 +17,20 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: routeGenerator(adminRoutes),
   },
   {
     path: "/user",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: routeGenerator(userRoutes),
   },
   {

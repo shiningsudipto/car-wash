@@ -45,11 +45,11 @@ const SignIn = () => {
         <FormikForm
           initialValues={initialValues}
           onSubmit={onSubmit}
-          className="lg:w-[480px] bg-slate-50 p-5 rounded-md"
+          className="lg:w-[480px] w-full bg-slate-50 p-5 rounded-md"
         >
           <Input name="email" label="Email" type="email" />
           <Input name="password" label="Password" type="password" />
-          <button type="submit" className="form-submit-btn">
+          <button type="submit" className="form-submit-btn w-full">
             Sing in
           </button>
           <p>

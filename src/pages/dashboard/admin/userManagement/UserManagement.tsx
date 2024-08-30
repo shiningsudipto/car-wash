@@ -138,7 +138,7 @@ const UserManagement = () => {
                   setFieldValue={setFieldValue}
                   placeholder="Select role"
                 />
-                <button className="form-submit-btn">Submit</button>
+                <button className="form-submit-btn w-full">Submit</button>
               </Form>
             );
           }}

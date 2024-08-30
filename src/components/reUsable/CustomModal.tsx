@@ -24,7 +24,7 @@ const CustomModal: FC<CustomModalProps> = ({
         onClick={() => setIsOpen(false)}
       ></div>
       <div
-        className={`relative bg-white rounded-lg shadow-lg z-10 lg:max-w-lg w-full`}
+        className={`relative bg-white rounded-lg shadow-lg z-10 lg:max-w-lg w-full lg:m-auto m-5`}
       >
         {title && (
           <div className="flex justify-between px-5 py-4 bg-primary-foreground rounded-t-lg text-white">

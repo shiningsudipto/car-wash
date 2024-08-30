@@ -41,7 +41,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   prefix,
 }) => {
   return (
-    <div>
+    <div className="w-full">
       {label && <p className="font-medium mb-2">{label}</p>}
       <Select
         onValueChange={(value) => {
@@ -50,7 +50,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         defaultValue={defaultValue}
       >
         <SelectTrigger
-          className={`h-[50px] font-medium gap-x-5 ${prefix}-formik-dropdown`}
+          className={`h-[50px] font-medium gap-x-5 ${prefix}-formik-dropdown formik-dropdown`}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

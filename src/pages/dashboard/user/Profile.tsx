@@ -64,7 +64,7 @@ const Profile = () => {
           subTitle="Overview and manage your information"
         />
         <div className="flex justify-center w-full">
-          <div className="mt-6 relative grid grid-cols-1 sm:grid-cols-2 gap-6 lg:w-[50%] p-10 bg-primary-foreground/5 rounded-md">
+          <div className="mt-6 relative grid grid-cols-1 sm:grid-cols-2 gap-6 lg:w-[50%] lg:p-10 p-5 bg-primary-foreground/5 rounded-md w-full">
             <button
               onClick={() => setEditUserModalOpen(true)}
               className="absolute top-1 right-2 flex items-center gap-x-2"
