@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/service/serviceComparisonSlice";
 import { TService } from "@/types";
 import SectionTitle from "@/components/reUsable/SectionTitle";
+import { toast } from "sonner";
 
 const ServiceCompare: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,10 +16,12 @@ const ServiceCompare: React.FC = () => {
   );
 
   const handleRemoveService = (serviceId: string) => {
+    toast.success("Service removed");
     dispatch(removeServiceFromCompare(serviceId));
   };
 
   const handleClearComparison = () => {
+    toast.success("All services removed");
     dispatch(clearComparisonList());
   };
 
@@ -40,7 +43,7 @@ const ServiceCompare: React.FC = () => {
               Clear Comparison
             </button>
           </div>
-          <div className="grid grid-cols-3 gap-4 mt-5">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-5">
             {selectedServices.map((service: TService) => (
               <div
                 key={service._id}

@@ -16,6 +16,8 @@ import { useState } from "react";
 import { TService } from "@/types";
 import { useAppDispatch } from "@/redux/hooks";
 import { addServiceToCompare } from "@/redux/features/service/serviceComparisonSlice";
+import { MdAddCircleOutline } from "react-icons/md";
+import { toast } from "sonner";
 
 interface TSearchFormValues {
   keyword: string;
@@ -38,6 +40,7 @@ const Service = () => {
   const dispatch = useAppDispatch();
   const handleAddServiceToCompare = (service: TService) => {
     dispatch(addServiceToCompare(service));
+    toast.success("Service added to the compare page");
   };
 
   const onSubmit = (values: TSearchFormValues) => {
@@ -113,8 +116,11 @@ const Service = () => {
                 >
                   Learn more <MdOutlineDoubleArrow className="mt-1 ms-1" />
                 </Link>
-                <button onClick={() => handleAddServiceToCompare(item)}>
-                  Compare service
+                <button
+                  onClick={() => handleAddServiceToCompare(item)}
+                  className="mt-2 flex items-center gap-x-2 font-medium text-primary-foreground hover:text-primary"
+                >
+                  Compare <MdAddCircleOutline className="mt-1" />
                 </button>
               </div>
             </div>

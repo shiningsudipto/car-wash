@@ -51,7 +51,11 @@ const Navbar = () => {
             {menu?.name}
           </Link>
         ))}
-        {!user && <Link to={"/sign-in"}>Login</Link>}
+        {!user && (
+          <Link to={"/sign-in"} className="primary-border-btn">
+            Login
+          </Link>
+        )}
         {user && (
           <div className="flex items-center gap-x-3">
             <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
