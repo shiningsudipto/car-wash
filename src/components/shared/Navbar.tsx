@@ -7,11 +7,16 @@ import {
 } from "@/components/ui/drawer";
 import { IoMenu } from "react-icons/io5";
 import { AiOutlineCloseSquare } from "react-icons/ai";
-import { useAppSelector } from "@/redux/hooks";
-import { TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout, TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Navbar = () => {
   const user = useAppSelector(useCurrentUser) as TUser;
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   const MenuLinks = [
     {
       path: "/",
@@ -22,12 +27,12 @@ const Navbar = () => {
       name: "Services",
     },
     {
-      path: "/reviews",
-      name: "Reviews",
+      path: "/services-compare",
+      name: "Compare",
     },
     {
-      path: "/sign-in",
-      name: "Login",
+      path: "/reviews",
+      name: "Reviews",
     },
   ];
 
@@ -46,7 +51,15 @@ const Navbar = () => {
             {menu?.name}
           </Link>
         ))}
-        {user && <Link to={`/${user.role}/dashboard`}>Dashboard</Link>}
+        {!user && <Link to={"/sign-in"}>Login</Link>}
+        {user && (
+          <div className="flex items-center gap-x-3">
+            <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
+            <button onClick={handleLogout} className="primary-border-btn">
+              Logout
+            </button>
+          </div>
+        )}
       </div>
       <div className="md:hidden block">
         <Drawer direction="right">

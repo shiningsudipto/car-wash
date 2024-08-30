@@ -16,6 +16,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { userRole } from "@/utils/const.utils";
+import Navbar from "@/components/shared/Navbar";
 
 const adminRoutes = [
   {
@@ -105,6 +106,7 @@ const Dashboard = () => {
 
   return (
     <div>
+      <Navbar />
       <div className="flex">
         <div>
           {/* Desktop Sidebar */}

@@ -5,6 +5,7 @@ import SignUp from "@/pages/SignUp";
 import Reviews from "@/pages/Reviews";
 import Service from "@/pages/service/Service";
 import Book from "@/pages/book/Book";
+import ServiceCompare from "@/pages/ServiceCompare";
 
 export const pageRoutes = [
   {
@@ -18,6 +19,10 @@ export const pageRoutes = [
       {
         path: "services",
         element: <Service />,
+      },
+      {
+        path: "services-compare",
+        element: <ServiceCompare />,
       },
       {
         path: "reviews",

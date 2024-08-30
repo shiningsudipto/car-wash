@@ -90,3 +90,7 @@ body {
 .form-submit-btn {
   @apply bg-primary text-white rounded-md py-3 px-6 font-semibold;
 }
+
+.primary-border-btn {
+  @apply border border-primary py-1 px-3 rounded-md hover:text-white hover:bg-primary;
+}

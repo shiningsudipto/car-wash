@@ -1,4 +1,3 @@
-// pages/UpcomingBookings.tsx
 import { useGetMyBookingQuery } from "@/redux/features/booking";
 import { TBooking } from "@/types/booking.type";
 import CountdownTimer from "@/components/shared/CountdownTimer";
@@ -37,7 +36,7 @@ const UpcomingBookings = () => {
         title="Upcoming Bookings"
         subTitle="Overview of Upcoming Bookings"
       />
-      <div className="space-y-4 grid grid-cols-4">
+      <div className="space-y-4 grid lg:grid-cols-4 grid-cols-1">
         {futureBookings.map((booking) => {
           const targetDateTime = getTargetDateTime(
             booking.slot.date,

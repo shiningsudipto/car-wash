@@ -14,6 +14,8 @@ import {
 } from "@/utils/list.utils";
 import { useState } from "react";
 import { TService } from "@/types";
+import { useAppDispatch } from "@/redux/hooks";
+import { addServiceToCompare } from "@/redux/features/service/serviceComparisonSlice";
 
 interface TSearchFormValues {
   keyword: string;
@@ -33,6 +35,10 @@ const Service = () => {
   const [searchValues, setSearchValues] = useState(initialValues);
   const { data, isLoading } = useGetAllServicesQuery(searchValues);
   console.log(data);
+  const dispatch = useAppDispatch();
+  const handleAddServiceToCompare = (service: TService) => {
+    dispatch(addServiceToCompare(service));
+  };
 
   const onSubmit = (values: TSearchFormValues) => {
     console.log(values);
@@ -100,12 +106,17 @@ const Service = () => {
                   Price: {item?.price} <BsCurrencyDollar />{" "}
                 </p>
               </div>
-              <Link
-                to={`/service-details/${item?._id}`}
-                className="flex flex-row items-center text-primary-foreground font-semibold rounded w-[180px] mt-2"
-              >
-                Learn more <MdOutlineDoubleArrow className="mt-1 ms-1" />
-              </Link>
+              <div className="flex  justify-between">
+                <Link
+                  to={`/service-details/${item?._id}`}
+                  className="flex flex-row items-center text-primary-foreground font-semibold rounded w-[180px] mt-2"
+                >
+                  Learn more <MdOutlineDoubleArrow className="mt-1 ms-1" />
+                </Link>
+                <button onClick={() => handleAddServiceToCompare(item)}>
+                  Compare service
+                </button>
+              </div>
             </div>
           );
         })}
