@@ -18,7 +18,7 @@ import { useState } from "react";
 import CustomModal from "@/components/reUsable/CustomModal";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { TReview } from "@/types";
+import { TErrorResponse, TReview } from "@/types";
 
 type TInitialValues = {
   feedback: string;
@@ -49,19 +49,14 @@ const Review = () => {
         rating: values.rating,
         feedback: values.feedback,
       }).unwrap();
-      if (response?.data.statusCode === 200) {
-        toast.success("Feedback posted", { id: toastId, duration: 2000 });
-      } else {
-        toast.error(response?.error?.data?.errorMessages[0]?.message, {
-          id: toastId,
-          duration: 2000,
-        });
-      }
+      console.log("res", response);
+      toast.success(response.message, { id: toastId, duration: 2000 });
     } catch (error) {
-      console.log("something went wrong", error);
-      toast.error("An error occurred", {
+      console.log("error", error);
+      const err = error as TErrorResponse;
+      toast.error(err.data.errorMessages[0].message || "Something went wrong", {
         id: toastId,
-        duration: 3000,
+        duration: 2000,
       });
     }
   };

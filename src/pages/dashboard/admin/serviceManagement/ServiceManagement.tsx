@@ -33,7 +33,6 @@ const ServiceManagement = () => {
   const [serviceInfo] = useCreateServiceMutation();
   const [deleteService] = useDeleteServiceMutation();
   const [serviceData] = useUpdateServiceMutation();
-
   // modal
   const [isAddServiceModalOpen, setAddServiceModalOpen] = useState(false);
   const [isServiceDeleteModalOpen, setServiceDeleteModalOpen] = useState(false);
@@ -50,14 +49,18 @@ const ServiceManagement = () => {
   };
 
   const onSubmit = async (values: TInitialValues) => {
+    setAddServiceModalOpen(false);
     const toastId = toast.loading("Service creating");
     try {
       const res = await serviceInfo(values).unwrap();
-      toast(res.message, { id: toastId });
+      toast.success(res.message, { id: toastId, duration: 2000 });
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
       const err = error as TErrorResponse;
-      toast(err?.data?.errorMessages[0].message, { id: toastId });
+      toast.error(err?.data?.errorMessages[0].message, {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 
@@ -184,6 +187,7 @@ const ServiceManagement = () => {
           </table>
         </div>
       </div>
+      {/* create service */}
       <CustomModal
         isOpen={isAddServiceModalOpen}
         setIsOpen={setAddServiceModalOpen}
@@ -216,6 +220,7 @@ const ServiceManagement = () => {
           </button>
         </FormikForm>
       </CustomModal>
+      {/* delete service */}
       <CustomModal
         isOpen={isServiceDeleteModalOpen}
         setIsOpen={setServiceDeleteModalOpen}
@@ -224,7 +229,10 @@ const ServiceManagement = () => {
           <h2 className="text-xl font-semibold">Are you sure?</h2>
           <h3 className="text-lg font-medium">You want to delete it?</h3>
           <div className="flex justify-between mt-5 w-full">
-            <button className="text-white bg-primary-foreground py-2 px-6 font-semibold rounded-md">
+            <button
+              onClick={() => setServiceDeleteModalOpen(false)}
+              className="text-white bg-primary-foreground py-2 px-6 font-semibold rounded-md"
+            >
               Cancel
             </button>
             <button

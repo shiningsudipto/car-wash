@@ -3,6 +3,7 @@ import Input from "@/components/formik/Input";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { setUser, TUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
+import { TErrorResponse } from "@/types";
 import { verifyToken } from "@/utils/verifyToken";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -34,8 +35,12 @@ const SignIn = () => {
       toast.success("Logged in", { id: toastId, duration: 2000 });
       navigate("/");
     } catch (error) {
-      toast.error("Something went wrong", { id: toastId, duration: 2000 });
-      console.error("Error submitting form:", error);
+      console.error("error:", error);
+      const err = error as TErrorResponse;
+      toast.error(err.data.errorMessages[0].message || "Something went wrong", {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
   return (

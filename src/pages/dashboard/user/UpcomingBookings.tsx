@@ -37,13 +37,15 @@ const UpcomingBookings = () => {
             booking.slot.startTime
           );
           const desLength = booking?.service?.description.length;
-          console.log("Target DateTime:", targetDateTime); // Debugging line
+          // console.log("Target DateTime:", targetDateTime); // Debugging line
           return (
             <div
               key={booking._id}
-              className="border p-4 rounded-lg shadow-md h-[210px]"
+              className="border p-4 rounded-lg shadow-md h-[210px] bg-primary-foreground/10"
             >
-              <h2 className="text-xl font-semibold">{booking.service.name}</h2>
+              <h2 className="text-xl font-semibold text-primary">
+                {booking.service.name}
+              </h2>
               <p>
                 {booking.service.description.slice(0, 25)}
                 {desLength > 25 && "..."}
@@ -55,7 +57,10 @@ const UpcomingBookings = () => {
               <p>
                 Vehicle: {booking.vehicleBrand} {booking.vehicleModel}
               </p>
-              <CountdownTimer targetDateTime={targetDateTime} />
+              <div className="mt-2">
+                <p className="font-medium">Remaining:</p>
+                <CountdownTimer targetDateTime={targetDateTime} />
+              </div>
             </div>
           );
         })}

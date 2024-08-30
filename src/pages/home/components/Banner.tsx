@@ -10,6 +10,7 @@ import "swiper/css/navigation";
 import bImg1 from "@/assets/banner/b1.jpg";
 import bImg2 from "@/assets/banner/b2.webp";
 import bImg5 from "@/assets/banner/b6.png";
+import { Link } from "react-router-dom";
 
 const bannerOptions = [
   {
@@ -60,13 +61,16 @@ const Banner = () => {
                   <span className="text-primary-foreground">Wash</span> Services
                 </h1>
                 <h2 className="lg:text-4xl text-xl font-semibold mt-5">
-                  We make your car shine like new with our expert care
+                  {item.subtitle}
                 </h2>
                 <div className="text-center mt-6">
-                  <button className="bg-primary hover:bg-primary-foreground text-xl lg:py-3 py-2 lg:px-6 px-4 rounded-md font-medium">
+                  <Link
+                    to={"/services"}
+                    className="bg-primary hover:bg-primary-foreground text-xl lg:py-3 py-2 lg:px-6 px-4 rounded-md font-medium mb-2"
+                  >
                     Shine Your Ride
-                  </button>
-                  <p className="text-xl font-semibold mt-2">
+                  </Link>
+                  <p className="text-xl font-semibold mt-4">
                     "Experience Premium Car Wash Services"
                   </p>
                 </div>

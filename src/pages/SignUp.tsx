@@ -1,7 +1,8 @@
 import FormikForm from "@/components/formik/FormikForm";
 import Input from "@/components/formik/Input";
 import { useRegistrationMutation } from "@/redux/features/auth/authApi";
-import { Link } from "react-router-dom";
+import { TErrorResponse } from "@/types";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 type TInitialValues = {
@@ -22,15 +23,22 @@ const initialValues: TInitialValues = {
 
 const SignUp = () => {
   const [userInfo] = useRegistrationMutation();
+  const navigate = useNavigate();
   const onSubmit = async (values: TInitialValues) => {
+    const toastId = toast.loading("Please wait account is creating");
     try {
       const response = await userInfo(values).unwrap();
-      console.log("response", response);
-      if (response.success) {
-        toast.success(response.message);
+      toast.success(response.message, { id: toastId, duration: 2000 });
+      if (await response.success) {
+        navigate("/sign-in");
+        toast.info("Please sign in", { id: toastId, duration: 2000 });
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      const err = error as TErrorResponse;
+      toast.error(err.data.errorMessages[0].message || "Something went wrong", {
+        id: toastId,
+        duration: 2000,
+      });
       console.error("Error submitting form:", error);
     }
   };
@@ -41,12 +49,12 @@ const SignUp = () => {
         <FormikForm
           initialValues={initialValues}
           onSubmit={onSubmit}
-          className="w-[480px] bg-slate-50 p-5 rounded-md"
+          className="lg:w-[480px] w-full bg-slate-50 p-5 rounded-md"
         >
           <Input name="name" label="Name" />
           <Input name="email" label="Email" type="email" />
           <Input name="password" label="Password" type="password" />
-          <Input name="phone" label="Prone" />
+          <Input name="phone" label="Phone" />
           <Input name="address" label="Address" />
           <button type="submit" className="form-submit-btn w-full">
             Sing up

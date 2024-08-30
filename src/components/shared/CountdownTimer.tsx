@@ -36,7 +36,11 @@ const CountdownTimer = ({ targetDateTime }: CountdownTimerProps) => {
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
 
-  return <div className="text-lg font-medium">{formatTime(timeLeft)}</div>;
+  return (
+    <div className="text-lg font-medium text-primary-foreground">
+      {formatTime(timeLeft)}
+    </div>
+  );
 };
 
 export default CountdownTimer;

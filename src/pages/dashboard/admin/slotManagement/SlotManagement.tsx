@@ -82,16 +82,13 @@ const SlotManagement = () => {
     }
   };
   const handleCreateSlot = async (values: TCreateSlotInitialValues) => {
-    console.log(values);
     setSlotCreateModalOpen(false);
     const toastId = toast.loading("Slot creating");
-
     try {
       const response = await createSlot(values).unwrap();
-      console.log("response", response);
       toast.success(response.message, { id: toastId, duration: 2000 });
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
       const err = error as TErrorResponse;
       toast.error(err?.data?.errorMessages[0].message, {
         id: toastId,
