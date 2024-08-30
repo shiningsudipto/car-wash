@@ -85,7 +85,7 @@ const Service = () => {
                   placeholder="Maximum duration"
                   optionsLabel="Maximum duration"
                 />
-                <Input name="keyword" />
+                <Input name="keyword" placeholder="query" />
                 <button className="h-[50px] lg:w-[150px] w-full bg-primary text-white font-semibold rounded-md">
                   Submit
                 </button>

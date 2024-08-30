@@ -41,7 +41,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   prefix,
 }) => {
   return (
-    <div className="w-full">
+    <div className="lg:w-auto w-full">
       {label && <p className="font-medium mb-2">{label}</p>}
       <Select
         onValueChange={(value) => {
