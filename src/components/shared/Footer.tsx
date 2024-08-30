@@ -8,7 +8,7 @@ import { FaTwitterSquare } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
-      <div className="lg:p-[70px] container lg:py-0 py-5 bg-primary-foreground/10 mt-[70px] text-slate-950 flex lg:flex-row flex-col justify-between gap-x-10 gap-y-5">
+      <div className="mx-auto lg:px-[70px] lg:py-10 py-5 px-5 bg-primary-foreground/10 mt-[70px] text-slate-950 flex lg:flex-row flex-col justify-between gap-x-10 gap-y-5">
         <div className="lg:w-[33.33%]">
           <p className="text-4xl font-bold">
             <span className="text-primary">Car</span>{" "}
@@ -30,7 +30,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="lg:w-[33.33%] flex flex-col lg:items-end items-center">
-          <p className="font-semibold">Socials</p>
+          <p className="font-semibold text-lg">Socials</p>
           <div className="flex gap-x-4 items-center text-secondaryColor mt-5">
             <p>
               <FaFacebookSquare className="text-2xl text-primary-foreground hover:text-blue-800 cursor-pointer" />{" "}
