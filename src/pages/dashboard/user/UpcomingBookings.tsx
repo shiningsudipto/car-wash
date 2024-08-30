@@ -30,17 +30,24 @@ const UpcomingBookings = () => {
         title="Upcoming Bookings"
         subTitle="Overview of Upcoming Bookings"
       />
-      <div className="space-y-4 grid lg:grid-cols-4 grid-cols-1">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-5 grid-cols-1">
         {futureBookings.map((booking) => {
           const targetDateTime = getTargetDateTime(
             booking.slot.date,
             booking.slot.startTime
           );
+          const desLength = booking?.service?.description.length;
           console.log("Target DateTime:", targetDateTime); // Debugging line
           return (
-            <div key={booking._id} className="border p-4 rounded-lg shadow-md">
+            <div
+              key={booking._id}
+              className="border p-4 rounded-lg shadow-md h-[210px]"
+            >
               <h2 className="text-xl font-semibold">{booking.service.name}</h2>
-              <p>{booking.service.description}</p>
+              <p>
+                {booking.service.description.slice(0, 25)}
+                {desLength > 25 && "..."}
+              </p>
               <p>Date: {new Date(booking.slot.date).toLocaleDateString()}</p>
               <p>
                 Time: {booking.slot.startTime} - {booking.slot.endTime}

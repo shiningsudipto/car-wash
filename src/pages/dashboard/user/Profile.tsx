@@ -19,7 +19,8 @@ type TEditUserInitialValues = {
 };
 
 const Profile = () => {
-  const { data, isLoading } = useGetUserInfoQuery(undefined);
+  const { data, isLoading, error } = useGetUserInfoQuery(undefined);
+  console.log("user", data, error);
   const userInfo = data?.data;
   const [updateUser] = useUpdateUserMutation();
   // modal
@@ -73,36 +74,39 @@ const Profile = () => {
             </button>
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-700">Name</h2>
-              <p className="text-gray-500">{userInfo.name}</p>
+              <p className="text-gray-500">{userInfo?.name}</p>
             </div>
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-700">Email</h2>
-              <p className="text-gray-500">{userInfo.email}</p>
+              <p className="text-gray-500">{userInfo?.email}</p>
             </div>
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-700">Phone</h2>
-              <p className="text-gray-500">{userInfo.phone}</p>
+              <p className="text-gray-500">{userInfo?.phone}</p>
             </div>
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-700">Role</h2>
               <p
                 className={`text-gray-500 ${
-                  userInfo.role === "admin" ? "text-green-600" : "text-blue-600"
+                  userInfo?.role === "admin"
+                    ? "text-green-600"
+                    : "text-blue-600"
                 }`}
               >
-                {userInfo.role.charAt(0).toUpperCase() + userInfo.role.slice(1)}
+                {userInfo?.role.charAt(0).toUpperCase() +
+                  userInfo?.role.slice(1)}
               </p>
             </div>
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-700">Address</h2>
-              <p className="text-gray-500">{userInfo.address}</p>
+              <p className="text-gray-500">{userInfo?.address}</p>
             </div>
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-700">
                 Member Since
               </h2>
               <p className="text-gray-500">
-                {new Date(userInfo.createdAt).toLocaleDateString()}
+                {new Date(userInfo?.createdAt).toLocaleDateString()}
               </p>
             </div>
             <div className="space-y-3">
@@ -110,7 +114,7 @@ const Profile = () => {
                 Last Updated
               </h2>
               <p className="text-gray-500">
-                {new Date(userInfo.updatedAt).toLocaleDateString()}
+                {new Date(userInfo?.updatedAt).toLocaleDateString()}
               </p>
             </div>
           </div>

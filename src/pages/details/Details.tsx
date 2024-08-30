@@ -6,6 +6,7 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import { Field, FieldProps, Form, Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { TService, TSlot } from "@/types";
+import { formatDateToDDMMYYYY } from "@/utils/utils";
 
 interface InitialValues {
   slot: string;
@@ -22,7 +23,6 @@ const Details = () => {
   const [selectedSlot, setSetSelectedSlot] = useState<(TService | TSlot)[]>([]);
   const serviceDetails = data?.data?.service as TService;
   const availableSlots = data?.data?.slots;
-  // console.log(serviceDetails, availableSlots);
 
   const onSubmit = (values: InitialValues) => {
     console.log(values);
@@ -38,6 +38,11 @@ const Details = () => {
         title={serviceDetails?.name}
         subTitle={serviceDetails?.description}
       />
+      {availableSlots.length === 0 && (
+        <div className="my-10 text-xl font-medium text-center">
+          No available slot
+        </div>
+      )}
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ values }: FormikProps<InitialValues>) => {
           return (
@@ -70,7 +75,7 @@ const Details = () => {
                           >
                             <div
                               key={option?._id}
-                              className={`p-5 rounded-md ${
+                              className={`p-5 rounded-md space-y-1 ${
                                 checkedValue
                                   ? "bg-primary text-white"
                                   : "bg-primary-foreground/5"
@@ -84,6 +89,12 @@ const Details = () => {
                                 Status:{" "}
                                 <span className="font-medium capitalize">
                                   {option?.isBooked}
+                                </span>
+                              </p>
+                              <p>
+                                Date:{" "}
+                                <span className="font-medium">
+                                  {formatDateToDDMMYYYY(option?.date)}
                                 </span>
                               </p>
                               <p className="font-medium flex items-center">

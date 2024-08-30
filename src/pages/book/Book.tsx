@@ -2,15 +2,25 @@ import SectionTitle from "@/components/reUsable/SectionTitle";
 import { useLocation } from "react-router-dom";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { formatDateToDDMMYYYY } from "@/utils/utils";
-import FormikForm from "@/components/formik/FormikForm";
 import { useAppSelector } from "@/redux/hooks";
 import { TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 import Input from "@/components/formik/Input";
+import { useCreateBookingMutation } from "@/redux/features/booking";
+import { Form, Formik, FormikProps } from "formik";
+import Dropdown from "@/components/formik/Dropdown";
+import { vehicleOptions } from "@/utils/const.utils";
+import { toast } from "sonner";
 
-interface InitialValues {
+interface TInitialValues {
   name: string;
   email: string;
   time: string;
+  amount: string;
+  vehicleType: string;
+  registrationPlate: string;
+  vehicleBrand: string;
+  vehicleModel: string;
+  manufacturingYear: string;
 }
 
 const Book = () => {
@@ -21,24 +31,55 @@ const Book = () => {
 
   const userInfo = useAppSelector(useCurrentUser) as TUser;
 
-  const initialValues: InitialValues = {
+  const [createBooking] = useCreateBookingMutation();
+
+  const initialValues: TInitialValues = {
     name: userInfo?.name || "",
     email: userInfo?.email || "",
+    amount: serviceDetails?.price || "",
+    vehicleType: "",
+    registrationPlate: "ABC420",
     time: `${slotDetails?.startTime} - ${slotDetails?.endTime}`,
+    vehicleBrand: "RR",
+    vehicleModel: "Galaxy",
+    manufacturingYear: "2023",
   };
 
-  const onSubmit = (values: InitialValues) => {
-    console.log(values);
+  const onSubmit = async (values: TInitialValues) => {
+    const toastId = toast.loading("Booking request processing", {
+      duration: 2000,
+    });
+    const bookingInfo = {
+      serviceId: serviceDetails?._id,
+      slotId: slotDetails?._id,
+      vehicleType: values?.vehicleType,
+      vehicleBrand: values?.vehicleBrand,
+      vehicleModel: values?.vehicleModel,
+      manufacturingYear: values?.manufacturingYear,
+      registrationPlate: values?.manufacturingYear,
+      amount: values?.amount,
+    };
+    try {
+      const response = await createBooking(bookingInfo).unwrap();
+      if (response?.message === "Booking successful") {
+        window.location.href = response?.data?.payment_url;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
 
-  console.log(selectedSlot);
   return (
     <div className="container pt-[70px]">
       <SectionTitle
         title="Secure Your Slot"
         subTitle="Choose your preferred service slot and complete your booking with ease"
       />
-      <div className="grid grid-cols-2 lg:gap-x-[70px]">
+      <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-x-[70px]">
         <div>
           <div className="flex flex-col gap-y-5">
             <div className="bg-primary-foreground/5 p-5 rounded-md">
@@ -88,14 +129,36 @@ const Book = () => {
           </div>
         </div>
         <div>
-          <FormikForm initialValues={initialValues} onSubmit={onSubmit}>
-            <Input name="name" label="Name" readOnly />
-            <Input name="email" label="Email" readOnly />
-            <Input name="time" label="Time" readOnly />
-            <button type="submit" className="form-submit-btn">
-              Pay Now
-            </button>
-          </FormikForm>
+          <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            {({ setFieldValue }: FormikProps<TInitialValues>) => {
+              return (
+                <Form className="space-y-5">
+                  <Input name="name" label="Name" readOnly />
+                  <Input name="email" label="Email" readOnly />
+                  <Input name="time" label="Time" readOnly />
+                  <Input name="amount" label="Price" readOnly />
+                  <Dropdown
+                    label="Vehicle Type"
+                    name="vehicleType"
+                    options={vehicleOptions}
+                    setFieldValue={setFieldValue}
+                    placeholder="Select vehicle type"
+                  />
+                  <Input
+                    name="registrationPlate"
+                    label="Registration Plate"
+                    required
+                  />
+                  <Input name="vehicleBrand" label="Vehicle Brand" />
+                  <Input name="vehicleModel" label="Vehicle Model" />
+                  <Input name="manufacturingYear" label="Manufacturing Year" />
+                  <button type="submit" className="form-submit-btn w-full">
+                    Pay Now
+                  </button>
+                </Form>
+              );
+            }}
+          </Formik>
         </div>
       </div>
     </div>

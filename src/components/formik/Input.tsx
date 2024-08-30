@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({
         type={type}
         placeholder={placeholder}
         required={required}
-        className={`border rounded-md p-3 focus-visible:outline-0`}
+        className={`border rounded-md p-3 focus-visible:outline-0 read-only:bg-slate-100 `}
       />
     </div>
   );
