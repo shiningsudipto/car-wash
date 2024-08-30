@@ -8,10 +8,10 @@ import {
 import { IoMenu } from "react-icons/io5";
 import { AiOutlineCloseSquare } from "react-icons/ai";
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Navbar = () => {
-  const user = useAppSelector(useCurrentUser);
+  const user = useAppSelector(useCurrentUser) as TUser;
   const MenuLinks = [
     {
       path: "/",
@@ -46,7 +46,7 @@ const Navbar = () => {
             {menu?.name}
           </Link>
         ))}
-        <Link to={"/admin/dashboard"}>Dashboard</Link>
+        {user && <Link to={`/${user.role}/dashboard`}>Dashboard</Link>}
       </div>
       <div className="md:hidden block">
         <Drawer direction="right">

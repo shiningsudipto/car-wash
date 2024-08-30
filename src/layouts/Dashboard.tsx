@@ -8,15 +8,16 @@ import { IoMenu } from "react-icons/io5";
 import { AiOutlineCloseSquare } from "react-icons/ai";
 import { Link, Outlet } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { userRole } from "@/utils/const.utils";
 
-const MenuLinks = [
+const adminRoutes = [
   {
     path: "/service-management",
     name: "Service Management",
@@ -41,8 +42,36 @@ const MenuLinks = [
   },
 ];
 
+const userRoutes = [
+  {
+    path: "/profile",
+    name: "Profile",
+  },
+  {
+    path: "/past-bookings",
+    name: "Past Bookings",
+  },
+  {
+    path: "/upcoming-bookings",
+    name: "Past Bookings",
+  },
+];
+
 const Dashboard = () => {
-  const user = useAppSelector(useCurrentUser);
+  const user = useAppSelector(useCurrentUser) as TUser;
+  let sidebarItems;
+
+  switch (user!.role) {
+    case userRole.ADMIN:
+      sidebarItems = adminRoutes;
+      break;
+    case userRole.USER:
+      sidebarItems = userRoutes;
+      break;
+
+    default:
+      break;
+  }
 
   const MenuItem = ({
     path,
@@ -81,8 +110,8 @@ const Dashboard = () => {
           {/* Desktop Sidebar */}
           <div className="md:block hidden bg-primary-foreground/10 h-[100vh] p-5">
             <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4">
-              {MenuLinks.map((menu) =>
-                menu.children ? (
+              {sidebarItems?.map((menu) =>
+                menu?.children ? (
                   <Accordion
                     key={menu.path}
                     type="single"
@@ -92,7 +121,7 @@ const Dashboard = () => {
                     <MenuItem
                       path={`/${user.role}${menu.path}`}
                       name={menu.name}
-                      children={menu.children}
+                      children={menu?.children}
                     />
                   </Accordion>
                 ) : (
@@ -119,13 +148,13 @@ const Dashboard = () => {
                   <AiOutlineCloseSquare className="text-3xl p-1" />
                 </DrawerClose>
                 <Accordion type="single" collapsible className="w-full">
-                  {MenuLinks.map((menu) =>
-                    menu.children ? (
+                  {sidebarItems?.map((menu) =>
+                    menu?.children ? (
                       <MenuItem
                         key={menu.path}
                         path={`/${user.role}${menu.path}`}
                         name={menu.name}
-                        children={menu.children}
+                        children={menu?.children}
                       />
                     ) : (
                       <AccordionItem key={menu.path} value={menu.path}>
