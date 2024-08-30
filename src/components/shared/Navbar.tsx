@@ -9,6 +9,7 @@ import { IoMenu } from "react-icons/io5";
 import { AiOutlineCloseSquare } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { MenuLinks } from "@/utils/list.utils";
 
 const Navbar = () => {
   const user = useAppSelector(useCurrentUser) as TUser;
@@ -17,27 +18,9 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
-  const MenuLinks = [
-    {
-      path: "/",
-      name: "Home",
-    },
-    {
-      path: "/services",
-      name: "Services",
-    },
-    {
-      path: "/services-compare",
-      name: "Compare",
-    },
-    {
-      path: "/reviews",
-      name: "Reviews",
-    },
-  ];
 
   return (
-    <div className="h-[60px] flex justify-between items-center lg:px-[60px] px-5 py-2">
+    <div className="h-[60px] flex justify-between items-center lg:px-[60px] px-5 py-2 bg-primary-foreground/10 text-slate-950">
       <Link to={"/"} className="flex gap-x-2 items-center">
         <img src="FT.png" alt="" className="h-[42px]" />
         <p className="text-3xl font-bold">

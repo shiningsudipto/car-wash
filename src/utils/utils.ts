@@ -21,22 +21,3 @@ export const servicesToDropdownOption = (
     value: service._id,
   }));
 };
-
-export const MenuLinks = [
-  {
-    path: "/",
-    name: "Home",
-  },
-  {
-    path: "/services",
-    name: "Services",
-  },
-  {
-    path: "/reviews",
-    name: "Reviews",
-  },
-  {
-    path: "/sign-in",
-    name: "Login",
-  },
-];
