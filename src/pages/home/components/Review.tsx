@@ -124,7 +124,7 @@ const Review = () => {
             {({ setFieldValue, values }: FormikProps<TInitialValues>) => {
               return (
                 <Form className="space-y-5">
-                  <Textarea name="feedback" label="Your feedback" />
+                  <Textarea name="feedback" label="Your feedback" required />
                   <FormikRating
                     label="Rate us"
                     setFieldValue={setFieldValue}

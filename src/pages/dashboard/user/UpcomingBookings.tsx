@@ -2,6 +2,7 @@ import { useGetMyBookingQuery } from "@/redux/features/booking";
 import { TBooking } from "@/types/booking.type";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import SectionTitle from "@/components/reUsable/SectionTitle";
+import { getTargetDateTime } from "@/utils/utils";
 
 const UpcomingBookings = () => {
   const { data, isLoading, error } = useGetMyBookingQuery(undefined);
@@ -16,13 +17,6 @@ const UpcomingBookings = () => {
       const bookingDateStr = bookingDate.toISOString().split("T")[0];
       return bookingDateStr >= currentDate;
     });
-  };
-
-  const getTargetDateTime = (date: string, startTime: string): Date => {
-    const [hours, minutes] = startTime.split(":").map(Number);
-    const targetDate = new Date(date);
-    targetDate.setHours(hours, minutes, 0, 0); // Set the time to the startTime
-    return targetDate;
   };
 
   const futureBookings = filterUpcomingBookings(bookingData);

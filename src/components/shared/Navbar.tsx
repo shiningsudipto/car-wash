@@ -10,10 +10,23 @@ import { AiOutlineCloseSquare } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, TUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 import { MenuLinks } from "@/utils/list.utils";
+import { useGetMyBookingQuery } from "@/redux/features/booking";
+import { filterUpcomingBookings, getTargetDateTime } from "@/utils/utils";
+import { TBooking } from "@/types/booking.type";
+import CountdownTimer from "./CountdownTimer";
 
 const Navbar = () => {
   const user = useAppSelector(useCurrentUser) as TUser;
   const dispatch = useAppDispatch();
+  // upcoming booking
+  const { data, isLoading, error } = useGetMyBookingQuery(undefined);
+  const bookingData = data?.data || [];
+
+  const latestBooking = filterUpcomingBookings(bookingData) as TBooking | null;
+
+  const latestDateAndTime = latestBooking
+    ? getTargetDateTime(latestBooking.slot.date, latestBooking.slot.startTime)
+    : null;
 
   const handleLogout = () => {
     dispatch(logout());
@@ -29,6 +42,9 @@ const Navbar = () => {
       {user && (
         <div className="flex lg:flex-row flex-col lg:items-center gap-3">
           <Link to={`/${user.role}/dashboard`}>Dashboard</Link>
+          {latestDateAndTime && !isLoading && !error && (
+            <CountdownTimer targetDateTime={latestDateAndTime} />
+          )}
           <button onClick={handleLogout} className="primary-border-btn">
             Logout
           </button>
@@ -70,6 +86,9 @@ const Navbar = () => {
                 </Link>
               ))}
               {conditionalLinks}
+              {latestDateAndTime && !isLoading && !error && (
+                <CountdownTimer targetDateTime={latestDateAndTime} />
+              )}
             </div>
           </DrawerContent>
         </Drawer>
