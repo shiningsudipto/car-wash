@@ -43,7 +43,7 @@ const UserManagement = () => {
     if (userInfo) {
       try {
         const response = await updateUser({
-          userRole: values,
+          userData: values,
           id: userInfo._id,
         }).unwrap();
         toast.success(response.message, { id: toastId, duration: 2000 });
